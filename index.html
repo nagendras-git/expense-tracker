@@ -66,22 +66,19 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
 .mnav-label{flex:1;text-align:center;font-size:15px;font-weight:800;color:var(--t1);letter-spacing:-.2px}
 
 /* ── HERO CARD ── */
-.hero-card{margin:0 16px 16px;background:linear-gradient(145deg,#0a0f22 0%,#111830 40%,#0c1020 100%);border:1px solid rgba(79,142,247,.22);border-radius:22px;padding:20px 20px 18px;position:relative;overflow:hidden}
-[data-theme="light"] .hero-card{background:linear-gradient(145deg,#1e3a8a 0%,#1d4ed8 50%,#1e40af 100%);border-color:rgba(37,99,235,.3)}
-.hero-card::before{content:'';position:absolute;top:-60px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(79,142,247,.18) 0%,transparent 70%);pointer-events:none}
-.hero-month{font-size:10px;font-weight:800;color:rgba(255,255,255,.4);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:6px}
-.hero-balance{font-family:var(--mono);font-size:42px;font-weight:600;letter-spacing:-2px;color:#fff;line-height:1;margin-bottom:4px}
-.hero-balance-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.38);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.hero-savings-pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:800;letter-spacing:.04em}
-.hero-progress-track{height:5px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-bottom:16px}
-.hero-progress-fill{height:100%;border-radius:99px;transition:width .7s cubic-bezier(.32,1,.45,1)}
-.hero-row{display:flex;gap:0}
-.hero-item{flex:1;border-right:1px solid rgba(255,255,255,.08)}
-.hero-item:last-child{border-right:none;padding-left:14px}
-.hero-item:first-child{padding-right:14px}
-.hero-item-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.32);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
-.hero-item-val{font-family:var(--mono);font-size:15px;font-weight:600}
-.hero-item-val.g{color:var(--green)}.hero-item-val.r{color:var(--red)}
+.hero-card{margin:0 16px 16px;background:var(--s2);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.hero-card-top{padding:18px 18px 16px}
+.hero-net-label{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.hero-net-val{font-family:var(--mono);font-size:38px;font-weight:600;letter-spacing:-1.5px;line-height:1.1;margin-bottom:4px}
+.hero-net-sub{font-size:12px;color:var(--t3);font-weight:500}
+.hero-divider{height:1px;background:var(--border)}
+.hero-stat-grid{display:grid;grid-template-columns:1fr 1fr}
+.hero-stat{padding:13px 18px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.hero-stat:nth-child(2n){border-right:none}
+.hero-stat:nth-child(n+3){border-bottom:none}
+.hero-stat-label{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.09em;text-transform:uppercase;margin-bottom:5px}
+.hero-stat-val{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--t1)}
+.hero-stat-val.g{color:var(--green)}.hero-stat-val.r{color:var(--red)}.hero-stat-val.b{color:var(--blue)}
 
 /* ── SEC HEADER ── */
 .home-sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin-bottom:9px}
@@ -244,9 +241,14 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
 .theme-opt.active .theme-opt-label{color:var(--blue)}
 
 /* ── FONT SIZE ── */
-.fs-row{display:flex;gap:6px;padding:10px 14px}
-.fs-btn{flex:1;padding:9px;border-radius:10px;border:1.5px solid var(--border);background:var(--s3);color:var(--t2);font-family:var(--font);font-weight:700;cursor:pointer;transition:all .15s;text-align:center}
+.fs-row{display:flex;gap:5px;padding:12px 14px 8px}
+.fs-btn{flex:1;padding:10px 4px;border-radius:10px;border:1.5px solid var(--border);background:var(--s3);color:var(--t2);font-family:var(--font);font-weight:800;cursor:pointer;transition:all .15s;text-align:center;font-size:13px}
 .fs-btn.active{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
+.fs-slider-wrap{padding:4px 14px 14px;display:flex;flex-direction:column;gap:6px}
+.fs-slider{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:99px;background:linear-gradient(to right,var(--blue) var(--pct,50%),var(--s4) var(--pct,50%));outline:none;cursor:pointer}
+.fs-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--blue);box-shadow:0 2px 6px rgba(79,142,247,.35);cursor:pointer}
+.fs-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--blue);box-shadow:0 2px 6px rgba(79,142,247,.35);cursor:pointer}
+.fs-slider-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);font-weight:600}
 
 /* ── NAV ── */
 .nav{position:absolute;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--safe-b));background:rgba(8,8,16,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;align-items:flex-start;padding-top:7px;padding-bottom:var(--safe-b);z-index:50}
@@ -257,11 +259,10 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
 .nav-icon svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.55;transition:opacity .15s}
 .nav-item.active .nav-icon svg{opacity:1}
 .nav-label{font-size:10px;font-weight:800;letter-spacing:.03em}
-.nav-add{flex:0 0 68px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0;cursor:pointer;border:none;background:none;margin-top:-10px}
-.nav-add-icon{width:48px;height:48px;border-radius:15px;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(79,142,247,.5);transition:transform .12s,box-shadow .12s}
-.nav-add:active .nav-add-icon{transform:scale(.91);box-shadow:0 2px 8px rgba(79,142,247,.3)}
-.nav-add-icon svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.nav-add-label{font-size:10px;font-weight:800;letter-spacing:.03em;color:var(--t3)}
+/* ── ADD BTN (top-right header) ── */
+.hdr-add-btn{width:36px;height:36px;border-radius:50%;background:var(--blue);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;transition:transform .12s,opacity .12s;box-shadow:0 3px 12px rgba(79,142,247,.45)}
+.hdr-add-btn:active{transform:scale(.9);opacity:.85}
+.hdr-add-btn svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 
 /* ── ADD SHEET ── */
 .overlay{position:fixed;inset:0;z-index:200;display:none;flex-direction:column;justify-content:flex-end;background:rgba(0,0,0,0)}
@@ -297,13 +298,12 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
 .ff input,.ff select{width:100%;background:var(--s3);border:1.5px solid var(--border);border-radius:9px;padding:9px 11px;color:var(--t1);font-size:14px;font-weight:600;outline:none;-webkit-appearance:none;transition:border-color .18s}
 .ff input:focus,.ff select:focus{border-color:var(--blue)}
 .ff select option{background:var(--s2)}
-.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:6px 0 0;flex-shrink:0}
-.numpad-key{background:var(--s2);padding:16px 0;text-align:center;font-size:21px;font-weight:700;cursor:pointer;transition:background .1s;font-family:var(--mono);color:var(--t1);border:none}
-.numpad-key.action{font-size:15px;color:var(--t2);background:var(--s3)}
-.numpad-key:active{background:var(--s4)}
-.numpad-key.del svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-.numpad-done{display:block;width:100%;padding:17px;background:var(--blue);border:none;color:#fff;font-size:15px;font-weight:900;cursor:pointer;letter-spacing:.02em;transition:opacity .15s;font-family:var(--font)}
-.numpad-done:active{opacity:.85}
+/* ── AMOUNT INPUT ── */
+.amt-input-wrap{position:relative}
+.amt-input{width:100%;background:var(--s3);border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--t1);font-size:22px;font-weight:700;outline:none;-webkit-appearance:none;appearance:none;transition:border-color .18s;font-family:var(--mono)}
+.amt-input:focus{border-color:var(--blue)}
+.amt-input::-webkit-inner-spin-button,.amt-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.amt-input[type=number]{-moz-appearance:textfield}
 .btn-save{width:calc(100% - 40px);margin:10px 20px;padding:14px;background:var(--blue);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:900;cursor:pointer;letter-spacing:.02em;transition:opacity .13s,transform .12s;font-family:var(--font)}
 .btn-save:active{opacity:.85;transform:scale(.99)}
 
@@ -358,6 +358,9 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
           <div class="hdr-btn" onclick="openAccSheet()" title="Accounts">
             <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
           </div>
+          <button class="hdr-add-btn" onclick="openAdd()" title="Add Transaction">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
         </div>
       </div>
       <div class="month-nav">
@@ -511,9 +514,15 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
         </div>
         <div class="s-collapse-body" id="fs-section">
           <div class="fs-row">
-            <button class="fs-btn active" id="fsb-normal" onclick="setFontSize('normal')">Normal</button>
-            <button class="fs-btn" id="fsb-large" onclick="setFontSize('large')">Large (17px)</button>
-            <button class="fs-btn" id="fsb-xl" onclick="setFontSize('xl')">X-Large (19px)</button>
+            <button class="fs-btn" id="fsb-xs" onclick="setFontSize('xs')">XS</button>
+            <button class="fs-btn" id="fsb-s" onclick="setFontSize('s')">S</button>
+            <button class="fs-btn active" id="fsb-m" onclick="setFontSize('m')">M</button>
+            <button class="fs-btn" id="fsb-l" onclick="setFontSize('l')">L</button>
+            <button class="fs-btn" id="fsb-xl" onclick="setFontSize('xl')">XL</button>
+          </div>
+          <div class="fs-slider-wrap">
+            <input class="fs-slider" id="fs-slider" type="range" min="0" max="4" step="1" value="2" oninput="setFontSizeSlider(this.value)"/>
+            <div class="fs-slider-labels"><span>Smaller</span><span>Larger</span></div>
           </div>
         </div>
       </div>
@@ -595,10 +604,6 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
       <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
       <span class="nav-label">Expenses</span>
     </button>
-    <button class="nav-add" onclick="openAdd()">
-      <div class="nav-add-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
-      <span class="nav-add-label">Add</span>
-    </button>
     <button class="nav-item" id="nav-analytics" onclick="nav('analytics')">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
       <span class="nav-label">Analytics</span>
@@ -623,11 +628,16 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
         <button class="type-btn active e" id="tbtn-e" onclick="setType('expense')"><svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>Expense</button>
         <button class="type-btn i" id="tbtn-i" onclick="setType('income')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>Income</button>
       </div>
-      <div class="amount-display">
-        <span class="amount-currency">₹</span><span class="amount-val empty-val" id="amt-display">0</span>
-      </div>
-      <div class="budget-warn" id="bwarn" style="display:none">
-        <span>⚠️</span><span id="bwarn-text">Budget exceeded!</span>
+      <div class="form-fields" style="padding-top:14px">
+        <div class="ff">
+          <div class="ff-label">Amount</div>
+          <div class="amt-input-wrap">
+            <input type="text" id="tx-amount" class="amt-input" placeholder="Enter amount" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" oninput="checkBudget()"/>
+          </div>
+        </div>
+        <div class="budget-warn" id="bwarn" style="display:none;margin:0 0 8px">
+          <span>⚠️</span><span id="bwarn-text">Budget exceeded!</span>
+        </div>
       </div>
       <div id="cat-section">
         <div class="cat-scroll" id="cat-pills"></div>
@@ -646,15 +656,7 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
           <input type="text" id="tx-note" placeholder="What was this for?"/>
         </div>
       </div>
-      <div class="numpad" id="numpad">
-        <button class="numpad-key" onclick="nk('1')">1</button><button class="numpad-key" onclick="nk('2')">2</button><button class="numpad-key" onclick="nk('3')">3</button>
-        <button class="numpad-key" onclick="nk('4')">4</button><button class="numpad-key" onclick="nk('5')">5</button><button class="numpad-key" onclick="nk('6')">6</button>
-        <button class="numpad-key" onclick="nk('7')">7</button><button class="numpad-key" onclick="nk('8')">8</button><button class="numpad-key" onclick="nk('9')">9</button>
-        <button class="numpad-key action" onclick="nk('.')">.</button>
-        <button class="numpad-key" onclick="nk('0')">0</button>
-        <button class="numpad-key action del" onclick="nk('del')"><svg viewBox="0 0 24 24"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg></button>
-      </div>
-      <button class="numpad-done" onclick="saveTransaction()">Save Transaction</button>
+      <button class="btn-save" onclick="saveTransaction()">Save Transaction</button>
     </div>
   </div>
 </div>
@@ -743,7 +745,7 @@ let customCats=ls('et_custom_cats',[]);
 const now=new Date();
 let activeMonth=now.getMonth(),activeYear=now.getFullYear();
 let activePage='home',activeAccFilter='all',currentType='expense';
-let selectedCat='food',selectedAccId=accounts[0]?.id||'',amtStr='';
+let selectedCat='food',selectedAccId=accounts[0]?.id||'';
 let selNewEmoji='💳',selCatEmoji='📦';
 
 function allCats(){return[...DEFAULT_CATS,...customCats];}
@@ -784,7 +786,7 @@ function accBalance(accId){
 // ── INIT ──
 function init(){
   applyTheme(ls('et_theme','dark'));
-  applyFontSize(ls('et_fs','normal'));
+  applyFontSize(ls('et_fs','m'));
   loadSample();
   renderAll();
 }
@@ -861,20 +863,34 @@ function applyTheme(t){
 }
 
 // ── FONT SIZE ──
+const FS_SIZES={xs:'13px',s:'14px',m:'16px',l:'17px',xl:'19px'};
+const FS_IDX=['xs','s','m','l','xl'];
+const FS_LABELS={xs:'XS',s:'S',m:'M (Default)',l:'L',xl:'XL'};
 function setFontSize(s){
-  ss('et_fs',s);applyFontSize(s);
+  ss('et_fs',s);
+  document.documentElement.style.setProperty('--fs',FS_SIZES[s]||'16px');
   document.querySelectorAll('.fs-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('fsb-'+s)?.classList.add('active');
-  const labels={normal:'Normal',large:'Large (17px)',xl:'X-Large (19px)'};
-  document.getElementById('fs-sub').textContent=labels[s]||s;
+  const el=document.getElementById('fs-sub');if(el)el.textContent=FS_LABELS[s]||s;
+  const slider=document.getElementById('fs-slider');
+  if(slider){const idx=FS_IDX.indexOf(s);slider.value=idx>=0?idx:2;updateSliderTrack(slider);}
+}
+function setFontSizeSlider(val){
+  const s=FS_IDX[parseInt(val)]||'m';
+  setFontSize(s);
+}
+function updateSliderTrack(slider){
+  const pct=(slider.value/4)*100;
+  slider.style.setProperty('--pct',pct+'%');
 }
 function applyFontSize(s){
-  const map={normal:'16px',large:'17px',xl:'19px'};
-  document.documentElement.style.setProperty('--fs',map[s]||'16px');
+  const saved=s||ls('et_fs','m');
+  document.documentElement.style.setProperty('--fs',FS_SIZES[saved]||'16px');
   document.querySelectorAll('.fs-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('fsb-'+s)?.classList.add('active');
-  const labels={normal:'Normal',large:'Large (17px)',xl:'X-Large (19px)'};
-  const el=document.getElementById('fs-sub');if(el)el.textContent=labels[s]||s;
+  document.getElementById('fsb-'+saved)?.classList.add('active');
+  const el=document.getElementById('fs-sub');if(el)el.textContent=FS_LABELS[saved]||saved;
+  const slider=document.getElementById('fs-slider');
+  if(slider){const idx=FS_IDX.indexOf(saved);slider.value=idx>=0?idx:2;updateSliderTrack(slider);}
 }
 
 // ── HOME ──
@@ -893,15 +909,21 @@ function renderHome(){
   const fillGrad=isPos?'linear-gradient(90deg,var(--green),#4F8EF7)':'var(--red)';
   const sc=isPos?'rgba(52,211,153,.18)':'rgba(248,113,113,.18)';
   const st=isPos?'var(--green)':'var(--red)';
+  const daysInMonth=new Date(activeYear,activeMonth+1,0).getDate();
+  const avgDay=totalExp?Math.round(totalExp/daysInMonth):0;
   const heroEl=document.getElementById('home-hero');
   if(heroEl)heroEl.innerHTML=`
-    <div class="hero-month">${MONTHS[activeMonth]} ${activeYear}</div>
-    <div class="hero-balance" style="color:${netColor}">${isPos?'+':''}${fmt(net)}</div>
-    <div class="hero-balance-label">Net Balance <span class="hero-savings-pill" style="background:${sc};color:${st}">${savedPct}% saved</span></div>
-    <div class="hero-progress-track"><div class="hero-progress-fill" style="width:${100-expPct}%;background:${fillGrad}"></div></div>
-    <div class="hero-row">
-      <div class="hero-item"><div class="hero-item-label">Income</div><div class="hero-item-val g">${fmt(totalInc)}</div></div>
-      <div class="hero-item"><div class="hero-item-label">Expenses</div><div class="hero-item-val r">${fmt(totalExp)}</div></div>
+    <div class="hero-card-top">
+      <div class="hero-net-label">Net Balance</div>
+      <div class="hero-net-val" style="color:${netColor}">${fmt(net)}</div>
+      <div class="hero-net-sub">Total income – expenses</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat-grid">
+      <div class="hero-stat"><div class="hero-stat-label">Income</div><div class="hero-stat-val g">${fmt(totalInc)}</div></div>
+      <div class="hero-stat"><div class="hero-stat-label">Expenses</div><div class="hero-stat-val r">${fmt(totalExp)}</div></div>
+      <div class="hero-stat"><div class="hero-stat-label">Saved</div><div class="hero-stat-val b">${savedPct}%</div></div>
+      <div class="hero-stat"><div class="hero-stat-label">Avg / Day</div><div class="hero-stat-val">${fmt(avgDay)}</div></div>
     </div>`;
   // cats
   const catMap={};expList.forEach(t=>catMap[t.cat]=(catMap[t.cat]||0)+t.amount);
@@ -1172,13 +1194,14 @@ function deleteCustomCat(id){
 
 // ── ADD SHEET ──
 function openAdd(){
-  amtStr='';updateAmtDisplay();
+  const amtEl=document.getElementById('tx-amount');if(amtEl)amtEl.value='';
   document.getElementById('tx-note').value='';
   document.getElementById('tx-date').value=new Date().toISOString().split('T')[0];
   document.getElementById('bwarn').style.display='none';
   setType(activePage==='income'?'income':'expense');
   populateAccSelect();
   document.getElementById('add-overlay').classList.add('open');
+  setTimeout(()=>{const a=document.getElementById('tx-amount');if(a)a.focus();},320);
 }
 function closeAdd(){document.getElementById('add-overlay').classList.remove('open')}
 function maybeCloseAdd(e){if(e.target===document.getElementById('add-overlay'))closeAdd();}
@@ -1200,20 +1223,10 @@ function populateAccSelect(){
   sel.innerHTML=accounts.map(a=>`<option value="${a.id}">${a.emoji} ${a.name}</option>`).join('');
   sel.value=selectedAccId||accounts[0]?.id;
 }
-function nk(key){
-  if(key==='del'){amtStr=amtStr.slice(0,-1);}
-  else if(key==='.'){if(!amtStr.includes('.'))amtStr+=key;}
-  else{if(amtStr.includes('.')){const dec=amtStr.split('.')[1];if(dec&&dec.length>=2)return;}
-    if(amtStr==='0')amtStr=key;else amtStr+=key;if(amtStr.length>10)return;}
-  updateAmtDisplay();checkBudget();
-}
-function updateAmtDisplay(){
-  const el=document.getElementById('amt-display');
-  el.textContent=amtStr||'0';el.className='amount-val'+(amtStr?'':' empty-val');
-}
 function checkBudget(){
   if(currentType!=='expense'){document.getElementById('bwarn').style.display='none';return;}
-  const amt=parseFloat(amtStr)||0;if(!amt){document.getElementById('bwarn').style.display='none';return;}
+  const amt=parseFloat(document.getElementById('tx-amount')?.value)||0;
+  if(!amt){document.getElementById('bwarn').style.display='none';return;}
   const spent=spentInCat(selectedCat),lim=budgets[selectedCat]||0;
   if(lim&&(spent+amt)>lim){
     document.getElementById('bwarn-text').textContent=`Budget exceeded by ${fmt((spent+amt)-lim)} · Limit ${fmt(lim)}`;
@@ -1221,7 +1234,7 @@ function checkBudget(){
   }else{document.getElementById('bwarn').style.display='none';}
 }
 function saveTransaction(){
-  const amt=parseFloat(amtStr);if(!amt||amt<=0){showToast('Enter an amount');return;}
+  const amt=parseFloat(document.getElementById('tx-amount')?.value);if(!amt||amt<=0){showToast('Enter an amount');return;}
   const date=document.getElementById('tx-date').value;if(!date){showToast('Pick a date');return;}
   const accId=document.getElementById('tx-acc').value;
   const note=document.getElementById('tx-note').value.trim();
