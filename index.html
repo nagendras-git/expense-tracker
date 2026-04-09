@@ -232,6 +232,20 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
 .s-budget-input:focus{border-color:var(--blue)}
 .s-version{text-align:center;color:var(--t3);font-size:12px;font-weight:600;padding:10px 0 20px}
 
+/* ── SEC HDR CARD (Goal Tracker style collapsible) ── */
+.sec-hdr-card{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;transition:background .12s}
+.sec-hdr-card:active{background:var(--s3)}
+.sec-hdr-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.sec-hdr-title{font-size:13px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:7px}
+.sec-badge{font-size:11px;font-weight:700;color:var(--t3);background:var(--s3);border:1px solid var(--border);border-radius:50px;padding:2px 8px;flex-shrink:0;margin-left:6px}
+.sec-hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.sec-caret{display:flex;align-items:center;color:var(--t3);transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.sec-caret svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+.sec-caret.open{transform:rotate(180deg)}
+.sec-body{overflow:hidden;transition:max-height .35s cubic-bezier(.16,1,.3,1),opacity .2s;max-height:2400px;opacity:1}
+.sec-body.closed{max-height:0;opacity:0}
+.row-list-wrap{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:6px}
+
 /* ── THEME PICKER ── */
 .theme-picker{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 14px}
 .theme-opt{display:flex;flex-direction:column;align-items:center;gap:7px;padding:11px 6px 9px;border-radius:var(--r);border:2px solid var(--border);background:var(--s3);cursor:pointer;transition:all .15s}
@@ -244,6 +258,11 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
 .theme-preview-line{border-radius:2px;height:3px}
 .theme-opt-label{font-size:11px;font-weight:800;color:var(--t2)}
 .theme-opt.active .theme-opt-label{color:var(--blue)}
+/* ── THEME CHECK CIRCLE ── */
+.theme-opt-check{width:16px;height:16px;border-radius:50%;background:var(--s4);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:2px}
+.theme-opt-check svg{display:none}
+.theme-opt.active .theme-opt-check{background:var(--blue);border-color:var(--blue)}
+.theme-opt.active .theme-opt-check svg{display:block}
 
 /* ── FONT SIZE ── */
 .fs-row{display:flex;gap:5px;padding:12px 14px 8px}
@@ -330,7 +349,7 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
 .confirm-btn.danger{background:var(--red-soft);color:var(--red);border:1px solid rgba(248,113,113,.3)}
 
 /* ── TOAST ── */
-.toast{position:fixed;top:calc(var(--safe-t) + 10px);left:50%;transform:translateX(-50%) translateY(-4px);background:var(--s3);border:1px solid var(--border);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;z-index:999;opacity:0;pointer-events:none;white-space:nowrap;transition:opacity .2s,transform .2s;max-width:90vw;color:var(--t1)}
+.toast{position:fixed;bottom:calc(var(--nav-h) + var(--safe-b) + 14px);left:50%;transform:translateX(-50%) translateY(8px);background:var(--s3);border:1px solid var(--border);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;z-index:999;opacity:0;pointer-events:none;white-space:nowrap;transition:opacity .22s,transform .22s;max-width:90vw;color:var(--t1)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ── CAT FORM ── */
@@ -489,117 +508,159 @@ input,select,textarea,button{font-family:var(--font);font-size:var(--fs)}
       <div class="safe-top"></div>
       <div class="hdr"><div class="hdr-left"><div class="hdr-eyebrow">Preferences</div><div class="hdr-title">Settings</div></div></div>
 
-      <!-- Appearance -->
-      <div class="sec-label">Appearance</div>
-      <div class="s-group">
-        <div class="s-collapse-hdr" onclick="toggleSCollapse(this)">
-          <div class="s-collapse-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></div>
-          <div class="s-collapse-body-text"><div class="s-collapse-title">Theme</div><div class="s-collapse-sub" id="theme-sub">Dark</div></div>
-          <div class="s-chevron open"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div style="padding:0 16px">
+
+        <!-- Appearance -->
+        <div class="sec-hdr-card" onclick="toggleSec('sec-appearance')">
+          <div class="sec-hdr-left">
+            <span class="sec-hdr-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="opacity:.55;flex-shrink:0"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+              Appearance
+            </span>
+            <span class="sec-badge" id="theme-sub">Dark</span>
+          </div>
+          <div class="sec-hdr-right">
+            <span class="sec-caret" id="caret-sec-appearance"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
         </div>
-        <div class="s-collapse-body open" id="theme-section">
-          <div class="theme-picker">
-            <div class="theme-opt active" id="topt-dark" onclick="setTheme('dark')">
-              <div class="theme-preview" style="background:#080810"><div class="theme-preview-top" style="background:#14141f"><div class="theme-preview-dot" style="background:#f87171"></div><div class="theme-preview-dot" style="background:#34d399"></div></div><div class="theme-preview-bottom"><div class="theme-preview-line" style="background:rgba(255,255,255,.2);width:80%"></div><div class="theme-preview-line" style="background:rgba(255,255,255,.12);width:55%"></div></div></div>
-              <div class="theme-opt-label">Dark</div>
+        <div class="sec-body closed" id="sec-appearance">
+          <div class="row-list-wrap" style="margin-bottom:10px">
+            <div style="padding:12px 14px 8px;border-bottom:1px solid var(--border2)">
+              <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px">Theme</div>
+              <div style="font-size:11px;color:var(--t3)">Choose your background style</div>
             </div>
-            <div class="theme-opt" id="topt-pitch" onclick="setTheme('pitch')">
-              <div class="theme-preview" style="background:#000000"><div class="theme-preview-top" style="background:#111111"><div class="theme-preview-dot" style="background:#f87171"></div><div class="theme-preview-dot" style="background:#34d399"></div></div><div class="theme-preview-bottom"><div class="theme-preview-line" style="background:rgba(255,255,255,.25);width:80%"></div><div class="theme-preview-line" style="background:rgba(255,255,255,.15);width:55%"></div></div></div>
-              <div class="theme-opt-label">Pitch Black</div>
+            <div class="theme-picker">
+              <div class="theme-opt active" id="topt-dark" onclick="setTheme('dark')">
+                <div class="theme-preview" style="background:#080810"><div class="theme-preview-top" style="background:#14141f"><div class="theme-preview-dot" style="background:#f87171"></div><div class="theme-preview-dot" style="background:#34d399"></div></div><div class="theme-preview-bottom"><div class="theme-preview-line" style="background:rgba(255,255,255,.2);width:80%"></div><div class="theme-preview-line" style="background:rgba(255,255,255,.12);width:55%"></div></div></div>
+                <div class="theme-opt-label">Dark</div>
+                <div class="theme-opt-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              </div>
+              <div class="theme-opt" id="topt-pitch" onclick="setTheme('pitch')">
+                <div class="theme-preview" style="background:#000000"><div class="theme-preview-top" style="background:#111111"><div class="theme-preview-dot" style="background:#f87171"></div><div class="theme-preview-dot" style="background:#34d399"></div></div><div class="theme-preview-bottom"><div class="theme-preview-line" style="background:rgba(255,255,255,.25);width:80%"></div><div class="theme-preview-line" style="background:rgba(255,255,255,.15);width:55%"></div></div></div>
+                <div class="theme-opt-label">Pitch Black</div>
+                <div class="theme-opt-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              </div>
+              <div class="theme-opt" id="topt-soft" onclick="setTheme('soft')">
+                <div class="theme-preview" style="background:#12121c"><div class="theme-preview-top" style="background:#1e1e2e"><div class="theme-preview-dot" style="background:#f87171"></div><div class="theme-preview-dot" style="background:#34d399"></div></div><div class="theme-preview-bottom"><div class="theme-preview-line" style="background:rgba(255,255,255,.22);width:80%"></div><div class="theme-preview-line" style="background:rgba(255,255,255,.14);width:55%"></div></div></div>
+                <div class="theme-opt-label">Soft Dark</div>
+                <div class="theme-opt-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              </div>
+              <div class="theme-opt" id="topt-light" onclick="setTheme('light')">
+                <div class="theme-preview" style="background:#f2f2f7"><div class="theme-preview-top" style="background:#ffffff"><div class="theme-preview-dot" style="background:#dc2626"></div><div class="theme-preview-dot" style="background:#16a34a"></div></div><div class="theme-preview-bottom"><div class="theme-preview-line" style="background:rgba(0,0,0,.2);width:80%"></div><div class="theme-preview-line" style="background:rgba(0,0,0,.12);width:55%"></div></div></div>
+                <div class="theme-opt-label">Light</div>
+                <div class="theme-opt-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              </div>
             </div>
-            <div class="theme-opt" id="topt-soft" onclick="setTheme('soft')">
-              <div class="theme-preview" style="background:#12121c"><div class="theme-preview-top" style="background:#1e1e2e"><div class="theme-preview-dot" style="background:#f87171"></div><div class="theme-preview-dot" style="background:#34d399"></div></div><div class="theme-preview-bottom"><div class="theme-preview-line" style="background:rgba(255,255,255,.22);width:80%"></div><div class="theme-preview-line" style="background:rgba(255,255,255,.14);width:55%"></div></div></div>
-              <div class="theme-opt-label">Soft Dark</div>
+            <div style="padding:11px 14px 8px;border-top:1px solid var(--border2);border-bottom:1px solid var(--border2)">
+              <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px">Text Size</div>
+              <div style="font-size:11px;color:var(--t3)">Adjust app font size</div>
             </div>
-            <div class="theme-opt" id="topt-light" onclick="setTheme('light')">
-              <div class="theme-preview" style="background:#f2f2f7"><div class="theme-preview-top" style="background:#ffffff"><div class="theme-preview-dot" style="background:#dc2626"></div><div class="theme-preview-dot" style="background:#16a34a"></div></div><div class="theme-preview-bottom"><div class="theme-preview-line" style="background:rgba(0,0,0,.2);width:80%"></div><div class="theme-preview-line" style="background:rgba(0,0,0,.12);width:55%"></div></div></div>
-              <div class="theme-opt-label">Light</div>
+            <div class="fs-row">
+              <button class="fs-btn" id="fsb-xs" onclick="setFontSize('xs')">XS</button>
+              <button class="fs-btn" id="fsb-s" onclick="setFontSize('s')">S</button>
+              <button class="fs-btn active" id="fsb-m" onclick="setFontSize('m')">M</button>
+              <button class="fs-btn" id="fsb-l" onclick="setFontSize('l')">L</button>
+              <button class="fs-btn" id="fsb-xl" onclick="setFontSize('xl')">XL</button>
+            </div>
+            <div class="fs-slider-wrap">
+              <input class="fs-slider" id="fs-slider" type="range" min="0" max="4" step="1" value="2" oninput="setFontSizeSlider(this.value)"/>
+              <div class="fs-slider-labels"><span>Smaller</span><span>Larger</span></div>
             </div>
           </div>
         </div>
-        <div class="s-collapse-hdr closed" style="border-top:1px solid var(--border2)" onclick="toggleSCollapse(this)">
-          <div class="s-collapse-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h6"/></svg></div>
-          <div class="s-collapse-body-text"><div class="s-collapse-title">Text Size</div><div class="s-collapse-sub" id="fs-sub">Normal</div></div>
-          <div class="s-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
-        </div>
-        <div class="s-collapse-body" id="fs-section">
-          <div class="fs-row">
-            <button class="fs-btn" id="fsb-xs" onclick="setFontSize('xs')">XS</button>
-            <button class="fs-btn" id="fsb-s" onclick="setFontSize('s')">S</button>
-            <button class="fs-btn active" id="fsb-m" onclick="setFontSize('m')">M</button>
-            <button class="fs-btn" id="fsb-l" onclick="setFontSize('l')">L</button>
-            <button class="fs-btn" id="fsb-xl" onclick="setFontSize('xl')">XL</button>
+
+        <!-- Budgets -->
+        <div class="sec-hdr-card" onclick="toggleSec('sec-budgets')" style="margin-top:8px">
+          <div class="sec-hdr-left">
+            <span class="sec-hdr-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="opacity:.55;flex-shrink:0"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Budgets
+            </span>
           </div>
-          <div class="fs-slider-wrap">
-            <input class="fs-slider" id="fs-slider" type="range" min="0" max="4" step="1" value="2" oninput="setFontSizeSlider(this.value)"/>
-            <div class="fs-slider-labels"><span>Smaller</span><span>Larger</span></div>
+          <div class="sec-hdr-right">
+            <span class="sec-caret" id="caret-sec-budgets"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
           </div>
         </div>
-      </div>
-
-      <!-- Budgets -->
-      <div class="sec-label" style="margin-top:12px">Budgets</div>
-      <div class="s-group">
-        <div class="s-collapse-hdr" onclick="toggleSCollapse(this)">
-          <div class="s-collapse-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg></div>
-          <div class="s-collapse-body-text"><div class="s-collapse-title">Monthly Budgets</div><div class="s-collapse-sub">Set limits per category</div></div>
-          <div class="s-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="sec-body closed" id="sec-budgets">
+          <div class="row-list-wrap" style="margin-bottom:10px" id="budget-settings"></div>
         </div>
-        <div class="s-collapse-body" id="budget-settings"></div>
-      </div>
 
-      <!-- Categories -->
-      <div class="sec-label" style="margin-top:12px">Categories</div>
-      <div class="s-group">
-        <div class="s-collapse-hdr" onclick="toggleSCollapse(this)">
-          <div class="s-collapse-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
-          <div class="s-collapse-body-text"><div class="s-collapse-title">Manage Categories</div><div class="s-collapse-sub">Add or remove custom categories</div></div>
-          <div class="s-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <!-- Categories -->
+        <div class="sec-hdr-card" onclick="toggleSec('sec-cats')" style="margin-top:8px">
+          <div class="sec-hdr-left">
+            <span class="sec-hdr-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="opacity:.55;flex-shrink:0"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+              Categories
+            </span>
+          </div>
+          <div class="sec-hdr-right">
+            <span class="sec-caret" id="caret-sec-cats"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
         </div>
-        <div class="s-collapse-body" id="cat-settings">
-          <div id="cat-settings-list"></div>
-          <div class="cat-form">
-            <div class="cat-form-row">
-              <div class="cat-emoji-btn" id="cat-emoji-toggle" onclick="toggleCatEmojiPicker()">📦</div>
-              <input class="cat-name-input" id="cat-new-name" placeholder="Category name" maxlength="24"/>
-              <button class="cat-add-btn" onclick="addCustomCat()">Add</button>
+        <div class="sec-body closed" id="sec-cats">
+          <div class="row-list-wrap" style="margin-bottom:10px" id="cat-settings">
+            <div id="cat-settings-list"></div>
+            <div class="cat-form">
+              <div class="cat-form-row">
+                <div class="cat-emoji-btn" id="cat-emoji-toggle" onclick="toggleCatEmojiPicker()">📦</div>
+                <input class="cat-name-input" id="cat-new-name" placeholder="Category name" maxlength="24"/>
+                <button class="cat-add-btn" onclick="addCustomCat()">Add</button>
+              </div>
+              <div class="cat-emoji-picker" id="cat-emoji-picker" style="display:none"></div>
             </div>
-            <div class="cat-emoji-picker" id="cat-emoji-picker" style="display:none"></div>
           </div>
         </div>
-      </div>
 
-      <!-- Accounts -->
-      <div class="sec-label" style="margin-top:12px">Accounts</div>
-      <div class="s-group">
-        <div class="s-collapse-hdr" onclick="toggleSCollapse(this)">
-          <div class="s-collapse-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
-          <div class="s-collapse-body-text"><div class="s-collapse-title">Accounts</div><div class="s-collapse-sub">Manage your accounts</div></div>
-          <div class="s-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <!-- Accounts -->
+        <div class="sec-hdr-card" onclick="toggleSec('sec-accs')" style="margin-top:8px">
+          <div class="sec-hdr-left">
+            <span class="sec-hdr-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="opacity:.55;flex-shrink:0"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+              Accounts
+            </span>
+          </div>
+          <div class="sec-hdr-right">
+            <span class="sec-caret" id="caret-sec-accs"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
         </div>
-        <div class="s-collapse-body" id="acc-settings"></div>
-      </div>
+        <div class="sec-body closed" id="sec-accs">
+          <div class="row-list-wrap" style="margin-bottom:10px" id="acc-settings"></div>
+        </div>
 
-      <!-- Data -->
-      <div class="sec-label" style="margin-top:12px">Data</div>
-      <div class="s-group">
-        <div class="s-row" onclick="exportData()">
-          <div class="s-row-icon" style="background:var(--blue-soft);color:var(--blue)"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-          <div class="s-row-body"><div class="s-row-title">Export</div><div class="s-row-sub">Download JSON backup</div></div>
-          <div class="s-row-end"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+        <!-- Data & Privacy -->
+        <div class="sec-hdr-card" onclick="toggleSec('sec-data')" style="margin-top:8px">
+          <div class="sec-hdr-left">
+            <span class="sec-hdr-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="opacity:.55;flex-shrink:0"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              Data &amp; Privacy
+            </span>
+          </div>
+          <div class="sec-hdr-right">
+            <span class="sec-caret" id="caret-sec-data"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
         </div>
-        <div class="s-row" onclick="document.getElementById('import-file').click()">
-          <div class="s-row-icon" style="background:var(--green-soft);color:var(--green)"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-          <div class="s-row-body"><div class="s-row-title">Import</div><div class="s-row-sub">Restore from JSON backup</div></div>
-          <div class="s-row-end"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+        <div class="sec-body closed" id="sec-data">
+          <div class="row-list-wrap" style="margin-bottom:10px">
+            <div class="s-row" onclick="exportData()">
+              <div class="s-row-icon" style="background:var(--blue-soft);color:var(--blue)"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+              <div class="s-row-body"><div class="s-row-title">Export Data</div><div class="s-row-sub">Download JSON backup</div></div>
+              <div class="s-row-end"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+            <div class="s-row" onclick="document.getElementById('import-file').click()">
+              <div class="s-row-icon" style="background:var(--green-soft);color:var(--green)"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+              <div class="s-row-body"><div class="s-row-title">Import Data</div><div class="s-row-sub">Restore from JSON backup</div></div>
+              <div class="s-row-end"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+            <div class="s-row" onclick="confirmAction('Reset all data? This cannot be undone.',resetData)">
+              <div class="s-row-icon" style="background:var(--red-soft);color:var(--red)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg></div>
+              <div class="s-row-body"><div class="s-row-title">Reset All Data</div><div class="s-row-sub">Clear everything — cannot be undone</div></div>
+              <div class="s-row-end"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+          </div>
         </div>
-        <div class="s-row" onclick="confirmAction('Reset all data? This cannot be undone.',resetData)">
-          <div class="s-row-icon" style="background:var(--red-soft);color:var(--red)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg></div>
-          <div class="s-row-body"><div class="s-row-title">Reset All Data</div><div class="s-row-sub">Clear everything — cannot be undone</div></div>
-          <div class="s-row-end"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </div>
+
+        <div class="s-version">Expense Tracker · v1.0 · Data stored on device 🔒</div>
       </div>
-      <div class="s-version">Expense Tracker · All data stored on device 🔒</div>
     </div>
 
   </div><!-- end .pages -->
@@ -855,6 +916,15 @@ function toggleSCollapse(hdr){
   if(chev)chev.classList.toggle('open',isOpen);
   hdr.classList.toggle('closed',!isOpen);
 }
+// Goal Tracker-style toggleSec — used in Settings page
+function toggleSec(id){
+  const body=document.getElementById(id);
+  const caret=document.getElementById('caret-'+id);
+  if(!body)return;
+  const closing=!body.classList.contains('closed');
+  body.classList.toggle('closed',closing);
+  if(caret)caret.classList.toggle('open',!closing);
+}
 
 // ── THEME ──
 const THEME_LABELS={dark:'Dark',pitch:'Pitch Black',soft:'Soft Dark',light:'Light'};
@@ -865,7 +935,11 @@ function applyTheme(t){
   document.documentElement.setAttribute('data-theme',t==='dark'?'':t);
   document.querySelectorAll('.theme-opt').forEach(o=>o.classList.remove('active'));
   document.getElementById('topt-'+t)?.classList.add('active');
+  // Update badge label in sec-hdr-card
   const el=document.getElementById('theme-sub');if(el)el.textContent=THEME_LABELS[t]||t;
+  // Update nav theme-color meta
+  const mc=document.querySelector('meta[name="theme-color"]');
+  if(mc)mc.content=t==='light'?'#f2f2f7':t==='soft'?'#12121c':t==='pitch'?'#000000':'#080810';
 }
 
 // ── FONT SIZE ──
