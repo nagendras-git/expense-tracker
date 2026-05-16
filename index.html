@@ -333,7 +333,7 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
     <div style="font-size:.75rem;color:var(--t3);margin-bottom:14px;line-height:1.6">Add, rename, reorder and remove sections. Built-in sections (🔒) cannot be deleted.</div>
     <div id="sec-mgr"></div>
     <div class="addrow" onclick="openSheet('add-sec')" style="margin-top:4px">
-      <div class="addrow-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>Add New Section
+      + Add New Section
     </div>
   </div>
 </div>
@@ -662,24 +662,24 @@ function renderSections(){
     const items=md[sec.key]||[];
     const secTotal=sum(items);
     const ico=getIcon(sec.iconId);
-    // % of total outflow for this section
+    // % of monthly income for this section
     const income=Number(md.income)||0;const pct=income?Math.round(secTotal/income*100):0;
     const rows=items.length===0
       ?`<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">No items yet${ro?'':' — tap + to add'}.</div></div>`
       :items.map(item=>{
-          const amt=Number(item.amount||0),ipct=t.total?Math.round(amt/t.total*100):0;
+          const amt=Number(item.amount||0),ipct=income?Math.round(amt/income*100):0;
           const act=ro?`openSheet('view-item','${sec.key}','${item.id}')`:`openSheet('edit-item','${sec.key}','${item.id}')`;
           return `<div class="ritem" onclick="${act}">
             <div class="rico"><svg viewBox="0 0 24 24">${ico.svg}</svg></div>
             <div class="rbody"><div class="rtitle">${item.name}</div><div class="rsub">${item.sub||''}</div></div>
             <div class="rright">
-              <div style="text-align:right"><div class="rval">${fmt(amt)}</div><div class="rpct">${ipct}% of total</div></div>
+              <div style="text-align:right"><div class="rval">${fmt(amt)}</div><div class="rpct">${ipct}% of income</div></div>
               <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
             </div>
           </div>`;
         }).join('');
     const addRow=ro?'':`<div class="addrow" onclick="openSheet('add-item','${sec.key}')" style="margin-bottom:8px">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>${addLabels[sec.key]||'Add Item'}
+      + ${addLabels[sec.key]||'Add Item'}
     </div>`;
     return `<div class="wrap" style="padding-top:${idx===0?8:0}px;padding-bottom:0">
       <div class="shdr" onclick="toggleSec('sec-${sec.key}')">
@@ -786,9 +786,9 @@ function saveProfile(){
 }
 
 
-function itemHeroHtml(sec,item,total){
+function itemHeroHtml(sec,item,total,income){
   if(!item)return'';
-  const amt=Number(item.amount||0),pct=total?Math.round(amt/total*100):0;
+  const amt=Number(item.amount||0),pct=income?Math.round(amt/income*100):0;
   const ico=getIcon(sec.iconId||'home');
   return `<div class="ihero">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
@@ -796,28 +796,28 @@ function itemHeroHtml(sec,item,total){
       <div style="font-size:.78rem;color:var(--t3)">${sec.label||''}</div>
     </div>
     <div class="ihero-amt" style="color:var(--blue)">${fmt(amt)}</div>
-    <div class="ibar-wrap"><div class="ibar" id="sh-bar" style="width:${Math.min(pct*2,100)}%;background:var(--blue)"></div></div>
-    <div class="ibar-meta"><span style="font-size:.75rem;font-weight:700;color:var(--blue)" id="sh-pct">${pct}% of total outflow</span><span style="font-size:.72rem;color:var(--t3)">of ${fmt(total)}</span></div>
+    <div class="ibar-wrap"><div class="ibar" id="sh-bar" style="width:${Math.min(pct,100)}%;background:var(--blue)"></div></div>
+    <div class="ibar-meta"><span style="font-size:.75rem;font-weight:700;color:var(--blue)" id="sh-pct">${pct}% of income</span><span style="font-size:.72rem;color:var(--t3)">of ${fmt(income)}</span></div>
   </div>`;
 }
 function shItem(sKey,itemId){
   const sec=D.sections.find(s=>s.key===sKey)||{};
-  const md=getMonth(curKey);const t=tots(md);
+  const md=getMonth(curKey);const t=tots(md);const income=Number(md.income)||0;
   const item=itemId?(md[sKey]||[]).find(x=>x.id===itemId):null;const v=item||{};
-  return `${item?itemHeroHtml(sec,item,t.total):''}
+  return `${item?itemHeroHtml(sec,item,t.total,income):''}
     <div class="fg"><label class="fl">Name</label><input class="fi" id="f-iname" value="${v.name||''}" placeholder="e.g. Rent, Electricity…"></div>
     <div class="fg"><label class="fl">Description (optional)</label><input class="fi" id="f-isub" value="${v.sub||''}" placeholder="e.g. Fixed cost, Monthly SIP…"></div>
-    <div class="fg"><label class="fl">Amount (₹/month)</label><input class="fi" id="f-iamt" type="number" value="${v.amount||''}" placeholder="0" oninput="livePreview(this.value,${t.total})"></div>
+    <div class="fg"><label class="fl">Amount (₹/month)</label><input class="fi" id="f-iamt" type="number" value="${v.amount||''}" placeholder="0" oninput="livePreview(this.value,${income})"></div>
     <div class="factions" style="justify-content:${item?'space-between':'flex-end'}">
       ${item?`<button class="btn btn-d" onclick="deleteItem()">Delete</button>`:''}
       <div style="display:flex;gap:8px"><button class="btn btn-g" onclick="closeSheet()">Cancel</button><button class="btn btn-p" onclick="saveItem()">Save</button></div>
     </div>`;
 }
-function livePreview(val,total){
-  const amt=Number(val||0),pct=total?Math.round(amt/total*100):0;
+function livePreview(val,income){
+  const amt=Number(val||0),pct=income?Math.round(amt/income*100):0;
   const bar=document.getElementById('sh-bar'),pEl=document.getElementById('sh-pct'),aEl=document.querySelector('.ihero-amt');
-  if(bar)bar.style.width=Math.min(pct*2,100)+'%';
-  if(pEl)pEl.textContent=pct+'% of total outflow';
+  if(bar)bar.style.width=Math.min(pct,100)+'%';
+  if(pEl)pEl.textContent=pct+'% of income';
   if(aEl)aEl.textContent=fmt(amt);
 }
 function saveItem(){
