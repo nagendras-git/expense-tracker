@@ -75,7 +75,7 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 
 
 /* ── Month navigator ── */
-.mnav{display:flex;align-items:center;padding:10px 14px 4px;max-width:480px;margin:0 auto;gap:8px;}
+.mnav{display:flex;align-items:center;padding:18px 14px 4px;max-width:480px;margin:0 auto;gap:8px;}
 .mnav-btn{width:38px;height:38px;border-radius:11px;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 120ms;}
 .mnav-btn:active{background:var(--sf3);transform:scale(.92)}
 .mnav-btn.dim{opacity:.28;cursor:default;pointer-events:none}
@@ -133,8 +133,10 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 .rpct{font-size:.68rem;color:var(--t3);margin-top:2px}
 .rchev{color:var(--t3);opacity:.5;display:flex;align-items:center;flex-shrink:0;}
 .rchev svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
-.addrow{display:flex;align-items:center;justify-content:center;padding:12px;border:1.5px dashed var(--blue-bd);border-radius:var(--rl);cursor:pointer;color:var(--blue);font-size:.86rem;font-weight:600;gap:6px;margin-top:6px;background:var(--blue-bg);transition:all 120ms;}
+.addrow{display:flex;align-items:center;justify-content:center;padding:13px;border:1px solid var(--blue-bd);border-radius:var(--rl);cursor:pointer;color:var(--blue);font-size:.86rem;font-weight:600;gap:8px;margin-top:6px;background:var(--blue-bg);transition:all 120ms;}
 .addrow:active{opacity:.7}
+.addrow-icon{width:22px;height:22px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.addrow-icon svg{stroke:#fff;}
 
 /* ── Tab bar ── */
 .tbar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(13,13,16,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--bd);height:calc(var(--nav-h) + var(--sb));padding-bottom:var(--sb);display:flex;align-items:flex-start;justify-content:center;padding-top:7px;}
@@ -322,16 +324,16 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
   <div class="hdr"><div class="hdr-in">
     <div class="hdr-l"><div><div class="hdr-gr">Customise</div><div class="hdr-nm">My Sections</div></div></div>
     <div style="display:flex;gap:7px">
-      <div class="iBtn" onclick="openSheet('add-sec')" style="cursor:pointer;background:rgba(59,130,246,.1);border-color:var(--blue-bd)">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <div onclick="openSheet('add-sec')" style="cursor:pointer;width:32px;height:32px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform 150ms;" onmousedown="this.style.transform='scale(0.92)'" onmouseup="this.style.transform=''" ontouchstart="this.style.transform='scale(0.92)'" ontouchend="this.style.transform=''">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </div>
     </div>
   </div></div>
-  <div class="wrap" style="padding-bottom:20px">
+  <div class="wrap" style="padding-top:20px;padding-bottom:20px">
     <div style="font-size:.75rem;color:var(--t3);margin-bottom:14px;line-height:1.6">Add, rename, reorder and remove sections. Built-in sections (🔒) cannot be deleted.</div>
     <div id="sec-mgr"></div>
     <div class="addrow" onclick="openSheet('add-sec')" style="margin-top:4px">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add New Section
+      <div class="addrow-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>Add New Section
     </div>
   </div>
 </div>
@@ -339,7 +341,7 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 <!-- ══ PROFILE ══ -->
 <div id="pg-profile" class="pg">
   <div class="hdr"><div class="hdr-in"><div class="hdr-l"><div><div class="hdr-gr">Account</div><div class="hdr-nm">Profile</div></div></div></div></div>
-  <div class="wrap" style="padding-bottom:20px;display:flex;flex-direction:column;gap:0">
+  <div class="wrap" style="padding-top:20px;padding-bottom:20px;display:flex;flex-direction:column;gap:0">
 
     <!-- Profile card -->
     <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);padding:20px 16px;display:flex;align-items:center;gap:14px;margin-bottom:20px">
