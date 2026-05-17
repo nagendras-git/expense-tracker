@@ -75,38 +75,50 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 
 
 /* ── Month navigator ── */
-.mnav{display:flex;align-items:center;padding:18px 14px 4px;max-width:480px;margin:0 auto;gap:8px;}
-.mnav-btn{width:38px;height:38px;border-radius:11px;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 120ms;}
-.mnav-btn:active{background:var(--sf3);transform:scale(.92)}
-.mnav-btn.dim{opacity:.28;cursor:default;pointer-events:none}
-.mnav-btn svg{width:17px;height:17px;stroke:var(--t1);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.mnav{display:flex;align-items:center;padding:14px 14px 4px;max-width:480px;margin:0 auto;gap:8px;}
+.mnav-btn{width:32px;height:32px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 120ms;}
+.mnav-btn:active{background:var(--sf3);transform:scale(.88)}
+.mnav-btn.dim{opacity:.25;cursor:default;pointer-events:none}
+.mnav-btn svg{width:14px;height:14px;stroke:var(--t1);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
 .mnav-center{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.mnav-month{font-size:1.05rem;font-weight:800;color:var(--t1);letter-spacing:-.3px;line-height:1}
-.mnav-pill{display:inline-flex;align-items:center;gap:4px;font-size:.64rem;font-weight:700;padding:3px 9px;border-radius:99px;}
+.mnav-month{font-size:1rem;font-weight:800;color:var(--t1);letter-spacing:-.3px;line-height:1}
+.mnav-pill{display:inline-flex;align-items:center;gap:4px;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:99px;}
 .pill-cur{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);}
 .pill-snap{background:rgba(176,176,204,.1);color:var(--t3);border:1px solid var(--bd2);}
 .pill-budg{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.2);}
 
 /* ── Hero card ── */
 .hero-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);overflow:hidden;}
-.hero-top{padding:18px 18px 16px;border-bottom:1px solid var(--bd2);}
-.hero-amount{font-size:2.4rem;font-weight:800;letter-spacing:-1.5px;line-height:1;margin-top:6px;}
+.hero-top{padding:16px 18px 14px;border-bottom:1px solid var(--bd2);}
+.hero-amount{font-size:2.2rem;font-weight:800;letter-spacing:-1.5px;line-height:1;margin-top:4px;}
 .hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;}
-.hero-cell{padding:13px 16px;}
+.hero-cell{padding:11px 14px;}
 .hero-cell:not(:last-child){border-right:1px solid var(--bd2);}
-.hero-cell-val{font-size:1.05rem;font-weight:800;letter-spacing:-.3px;margin-top:4px;}
+.hero-cell-val{font-size:1rem;font-weight:800;letter-spacing:-.3px;margin-top:3px;}
+/* income/expense bar rows */
+.hero-rows{padding:12px 16px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--bd2);}
+.hero-row{display:flex;align-items:center;justify-content:space-between;font-size:.84rem;}
+.hero-row-label{color:var(--t2);font-weight:500;}
+.hero-row-val{font-weight:700;}
+.hero-bar-wrap{height:5px;background:var(--sf3);border-radius:99px;overflow:hidden;margin-top:10px;}
+.hero-bar-fill{height:100%;border-radius:99px;display:flex;}
+.hero-bar-exp{height:100%;background:var(--red);border-radius:0;}
+.hero-bar-inv{height:100%;background:var(--blue);}
+.hero-bar-sur{height:100%;background:var(--green);}
+/* bottom action buttons */
+.hero-actions{display:flex;gap:0;}
 
 /* ── Collapsible sections ── */
-.shdr{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;user-select:none;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rl);margin-bottom:6px;transition:background 120ms;}
+.shdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;user-select:none;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rl);margin-bottom:5px;transition:background 120ms;}
 .shdr:active{background:var(--sf3)}
-.shdr-l{display:flex;align-items:center;gap:10px;min-width:0;flex:1;}
-.sec-ico{width:32px;height:32px;border-radius:9px;background:var(--blue-bg);border:1px solid var(--blue-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.sec-ico svg{width:15px;height:15px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-.stitle{font-size:.9rem;font-weight:700;color:var(--t1);}
-.shdr-r{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.sec-pct{font-size:.72rem;font-weight:700;color:var(--blue);background:var(--blue-bg);border:1px solid var(--blue-bd);padding:2px 8px;border-radius:99px;letter-spacing:0;}
+.shdr-l{display:flex;align-items:center;gap:9px;min-width:0;flex:1;}
+.sec-ico{width:26px;height:26px;border-radius:7px;background:var(--blue-bg);border:1px solid var(--blue-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sec-ico svg{width:12px;height:12px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.stitle{font-size:.86rem;font-weight:700;color:var(--t1);}
+.shdr-r{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.sec-pct{font-size:.68rem;font-weight:700;color:var(--blue);background:var(--blue-bg);border:1px solid var(--blue-bd);padding:2px 7px;border-radius:99px;}
 .scaret{color:var(--t3);transition:transform .25s var(--ease);display:flex;align-items:center;}
-.scaret svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.scaret svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
 .scaret.open{transform:rotate(180deg)}
 .sbody{overflow:hidden;max-height:0;opacity:0;pointer-events:none;transition:max-height .38s var(--ease),opacity .22s ease;}
 .sbody.open{max-height:5000px;opacity:1;pointer-events:auto;}
@@ -137,6 +149,15 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 .addrow:active{opacity:.7}
 .addrow-icon{width:22px;height:22px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .addrow-icon svg{stroke:#fff;}
+
+/* ── Quick-add action bar (above tab bar, home only) ── */
+.qabar{position:fixed;bottom:calc(var(--nav-h) + var(--sb));left:0;right:0;z-index:199;display:flex;gap:0;max-width:480px;margin:0 auto;padding:8px 14px;background:rgba(13,13,16,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--bd2);}
+.qabar-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 0;border-radius:var(--rl);font-size:.88rem;font-weight:700;cursor:pointer;transition:all 120ms;border:1.5px solid;}
+.qabar-btn:active{transform:scale(.96);opacity:.8}
+.qabar-exp{color:var(--red);border-color:rgba(248,113,113,.35);background:rgba(248,113,113,.08);margin-right:6px;}
+.qabar-inc{color:var(--green);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.08);}
+/* Pad home page above the qabar */
+#pg-home{padding-bottom:calc(var(--nav-h) + var(--sb) + 58px);}
 
 /* ── Tab bar ── */
 .tbar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(13,13,16,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--bd);height:calc(var(--nav-h) + var(--sb));padding-bottom:var(--sb);display:flex;align-items:flex-start;justify-content:center;padding-top:7px;}
@@ -292,20 +313,50 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
         <div class="lbl">Monthly Outflow</div>
         <div class="hero-amount" id="h-total">₹0</div>
       </div>
-      <!-- 3-cell grid: Income · Surplus · Invested -->
-      <div class="hero-grid">
-        <div class="hero-cell">
+      <!-- 4-cell grid: Income · Expense · Investment · Balance -->
+      <div class="hero-grid" style="grid-template-columns:1fr 1fr">
+        <div class="hero-cell" style="border-bottom:1px solid var(--bd2)">
           <div class="lbl">Income</div>
           <div class="hero-cell-val" style="color:var(--green)" id="h-income">₹0</div>
         </div>
-        <div class="hero-cell" style="border-left:1px solid var(--bd2);border-right:1px solid var(--bd2)">
-          <div class="lbl">Surplus</div>
-          <div class="hero-cell-val" id="h-surplus">₹0</div>
+        <div class="hero-cell" style="border-left:1px solid var(--bd2);border-bottom:1px solid var(--bd2)">
+          <div class="lbl">Spending</div>
+          <div class="hero-cell-val" style="color:var(--red)" id="h-expense">₹0</div>
         </div>
         <div class="hero-cell">
-          <div class="lbl">Invested</div>
+          <div class="lbl">Investment</div>
           <div class="hero-cell-val" style="color:var(--blue)" id="h-invested">₹0</div>
         </div>
+        <div class="hero-cell" style="border-left:1px solid var(--bd2)">
+          <div class="lbl">Balance</div>
+          <div class="hero-cell-val" id="h-surplus">₹0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- % Breakdown strip (replaces progress bar) -->
+  <div class="wrap" style="padding-top:8px;padding-bottom:0">
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);display:grid;grid-template-columns:1fr 1fr 1fr 1fr;overflow:hidden;">
+      <div style="padding:9px 0;text-align:center;border-right:1px solid var(--bd2)">
+        <div style="font-size:.56rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Spending</div>
+        <div style="font-size:.92rem;font-weight:800;color:var(--red)" id="hp-exp">0%</div>
+        <div style="font-size:.52rem;color:var(--t3);margin-top:2px">of income</div>
+      </div>
+      <div style="padding:9px 0;text-align:center;border-right:1px solid var(--bd2)">
+        <div style="font-size:.56rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Invested</div>
+        <div style="font-size:.92rem;font-weight:800;color:var(--blue)" id="hp-inv">0%</div>
+        <div style="font-size:.52rem;color:var(--t3);margin-top:2px">of income</div>
+      </div>
+      <div style="padding:9px 0;text-align:center;border-right:1px solid var(--bd2)">
+        <div style="font-size:.56rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Outflow</div>
+        <div style="font-size:.92rem;font-weight:800;" id="hp-bal">0%</div>
+        <div style="font-size:.52rem;color:var(--t3);margin-top:2px">spend+invest</div>
+      </div>
+      <div style="padding:9px 0;text-align:center;">
+        <div style="font-size:.56rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">Saved</div>
+        <div style="font-size:.92rem;font-weight:800;" id="hp-sav">0%</div>
+        <div style="font-size:.52rem;color:var(--t3);margin-top:2px">of income</div>
       </div>
     </div>
   </div>
@@ -322,18 +373,17 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 <!-- ══ SECTIONS ══ -->
 <div id="pg-sections" class="pg">
   <div class="hdr"><div class="hdr-in">
-    <div class="hdr-l"><div><div class="hdr-gr">Customise</div><div class="hdr-nm">My Sections</div></div></div>
+    <div class="hdr-l"><div><div class="hdr-gr">Customise</div><div class="hdr-nm">Categories</div></div></div>
     <div style="display:flex;gap:7px">
       <div onclick="openSheet('add-sec')" style="cursor:pointer;width:32px;height:32px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform 150ms;" onmousedown="this.style.transform='scale(0.92)'" onmouseup="this.style.transform=''" ontouchstart="this.style.transform='scale(0.92)'" ontouchend="this.style.transform=''">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </div>
     </div>
   </div></div>
-  <div class="wrap" style="padding-top:20px;padding-bottom:20px">
-    <div style="font-size:.75rem;color:var(--t3);margin-bottom:14px;line-height:1.6">Add, rename, reorder and remove sections. Built-in sections (🔒) cannot be deleted.</div>
+  <div class="wrap" style="padding-top:16px;padding-bottom:20px">
     <div id="sec-mgr"></div>
-    <div class="addrow" onclick="openSheet('add-sec')" style="margin-top:4px">
-      + Add New Section
+    <div class="addrow" onclick="openSheet('add-sec')" style="margin-top:8px">
+      + Add New Category
     </div>
   </div>
 </div>
@@ -450,10 +500,20 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
   </div>
 </div>
 
+<!-- Quick-add bar (home only) -->
+<div class="qabar" id="qabar">
+  <div class="qabar-btn qabar-exp" onclick="openQuickAdd('expense')">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Expense
+  </div>
+  <div class="qabar-btn qabar-inc" onclick="openQuickAdd('income')">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Income
+  </div>
+</div>
+
 <!-- Tab Bar -->
 <div class="tbar"><div class="tbar-in">
   <button class="titem active" id="tb-home" onclick="switchPage('home')"><div class="tico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="tlabel">Home</span></button>
-  <button class="titem" id="tb-sections" onclick="switchPage('sections')"><div class="tico"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div><span class="tlabel">Sections</span></button>
+  <button class="titem" id="tb-sections" onclick="switchPage('sections')"><div class="tico"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div><span class="tlabel">Categories</span></button>
   <button class="titem" id="tb-profile" onclick="switchPage('profile')"><div class="tico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="tlabel">Profile</span></button>
 </div></div>
 <div class="toast" id="toast"></div>
@@ -634,14 +694,27 @@ function renderHero(){
   const md=getMonth(curKey);const t=tots(md);const income=Number(md.income)||0;
   document.getElementById('h-total').textContent=fmt(t.total);
   document.getElementById('h-income').textContent=fmt(income);
-  document.getElementById('h-surplus').textContent=fmt(Math.abs(t.surplus));
+  document.getElementById('h-expense').textContent=fmt(t.disc);
+  document.getElementById('h-surplus').textContent=(t.surplus>=0?'+':'-')+fmt(Math.abs(t.surplus));
   document.getElementById('h-surplus').style.color=t.surplus>=0?'var(--green)':'var(--red)';
   document.getElementById('h-invested').textContent=fmt(t.inv);
-  // Alert
+  // % strip — all relative to income
+  const expPct =income?Math.round(t.disc/income*100):0;   // non-invest spending
+  const invPct =income?Math.round(t.inv/income*100):0;    // investments
+  const outPct =income?Math.round(t.total/income*100):0;  // total outflow (exp+inv)
+  const savPct =income?Math.round(t.surplus/income*100):0;// what's left
+  document.getElementById('hp-exp').textContent=expPct+'%';
+  document.getElementById('hp-inv').textContent=invPct+'%';
+  const outEl=document.getElementById('hp-bal');
+  outEl.textContent=outPct+'%';
+  outEl.style.color=outPct>100?'var(--red)':'var(--t1)';
+  const savEl=document.getElementById('hp-sav');
+  savEl.textContent=(savPct>=0?'':'')+savPct+'%';
+  savEl.style.color=savPct>=0?'var(--green)':'var(--red)';
+  // Alert — only warnings, not invest celebration (shown in strip)
   const aw=document.getElementById('h-alert');
   if(t.surplus<0){aw.innerHTML=alertHtml('red',`Expenses exceed income by ${fmt(Math.abs(t.surplus))}`);}
   else if(t.discPct>85){aw.innerHTML=alertHtml('amber',`Fixed spending is ${t.discPct}% of income — review costs`);}
-  else if(t.invPct>=25){aw.innerHTML=alertHtml('green',`Investing ${t.invPct}% of income — strong wealth-building pace 🎯`,true);}
   else{aw.innerHTML='';}
 }
 function alertHtml(type,msg,pos=false){
@@ -702,32 +775,57 @@ function renderHome(){renderMonthNav();renderHero();renderSections();}
 // ═══ RENDER: SECTIONS MANAGER ═════════════════════════════════════════
 function renderSecMgr(){
   const el=document.getElementById('sec-mgr');if(!el)return;
-  el.innerHTML=D.sections.map((sec,idx)=>{
+  const md=getMonth(curKey);const income=Number(md.income)||0;
+  // Flat card list - each row: icon | name + subtitle | reorder | caret
+  el.innerHTML=`<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);overflow:hidden;">
+  ${D.sections.map((sec,idx)=>{
     const ico=getIcon(sec.iconId);
-    return `<div class="smcard">
-      <div class="smcard-top">
-        <div style="width:36px;height:36px;border-radius:10px;background:var(--blue-bg);border:1px solid var(--blue-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ico.svg}</svg></div>
-        <div style="flex:1;min-width:0"><div style="font-size:.9rem;font-weight:700;color:var(--t1)">${sec.label}</div><div style="font-size:.68rem;color:var(--t3);margin-top:2px">${sec.builtin?'🔒 Built-in':'Custom section'}</div></div>
-        <button onclick="openSheet('edit-sec','${sec.key}')" style="padding:6px 12px;border-radius:var(--r);background:var(--sf2);border:1px solid var(--bd);color:var(--t2);font-size:.78rem;font-weight:600;cursor:pointer;font-family:inherit">Edit</button>
+    const secTotal=sum(md[sec.key]||[]);
+    const pct=income?Math.round(secTotal/income*100):0;
+    return `<div style="display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:${idx<D.sections.length-1?'1px solid var(--bd2)':'none'};background:var(--sf)">
+      <div style="width:36px;height:36px;border-radius:10px;background:var(--blue-bg);border:1px solid var(--blue-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ico.svg}</svg>
       </div>
-      <div class="smcard-bot">
-        <div style="display:flex;gap:6px">
-          ${idx>0?`<div class="smib" onclick="moveSection('${sec.key}',-1)"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></div>`:'<div style="width:28px"></div>'}
-          ${idx<D.sections.length-1?`<div class="smib" onclick="moveSection('${sec.key}',1)"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>`:'<div style="width:28px"></div>'}
+      <div style="flex:1;min-width:0">
+        <div style="font-size:.9rem;font-weight:700;color:var(--t1)">${sec.label}</div>
+        <div style="font-size:.68rem;color:var(--t3);margin-top:1px">${sec.builtin?'🔒 Built-in':''} ${secTotal?fmt(secTotal)+' · '+pct+'% of income':''}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="display:flex;flex-direction:column;gap:2px;cursor:pointer;padding:4px 6px;border-radius:7px;background:var(--sf2);border:1px solid var(--bd)">
+          ${idx>0?`<div onclick="moveSection('${sec.key}',-1)" style="display:flex;align-items:center;justify-content:center;padding:2px 0">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--t2)" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+          </div>`:`<div style="height:15px"></div>`}
+          <div style="height:1px;background:var(--bd2);margin:1px 0"></div>
+          ${idx<D.sections.length-1?`<div onclick="moveSection('${sec.key}',1)" style="display:flex;align-items:center;justify-content:center;padding:2px 0">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--t2)" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>`:`<div style="height:15px"></div>`}
         </div>
-        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:.72rem;color:var(--t3)">Show on Home</span><div class="tog ${sec.visible!==false?'on':''}" onclick="toggleSecVisible('${sec.key}')"><div class="togth"></div></div></div>
-        ${!sec.builtin?`<div class="smib del" onclick="deleteSec('${sec.key}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></div>`:'<div style="width:28px"></div>'}
+        <div class="tog ${sec.visible!==false?'on':''}" onclick="toggleSecVisible('${sec.key}')" style="margin-right:2px"><div class="togth"></div></div>
+        <div onclick="openSheet('edit-sec','${sec.key}')" style="display:flex;align-items:center;cursor:pointer;padding:4px 2px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
       </div>
     </div>`;
-  }).join('');
+  }).join('')}
+  </div>`;
 }
 
 // ═══ NAVIGATION ═══════════════════════════════════════════════════════
+function openQuickAdd(type){
+  if(type==='expense'){
+    const sec=D.sections.find(s=>s.visible!==false&&s.key!=='investments')||D.sections[0];
+    if(sec)openSheet('add-item',sec.key);
+  } else {
+    openSheet('add-income');
+  }
+}
 function switchPage(p){
   ['home','sections','profile'].forEach(id=>{
     document.getElementById('pg-'+id)?.classList.toggle('active',id===p);
     document.getElementById('tb-'+id)?.classList.toggle('active',id===p);
   });
+  const qb=document.getElementById('qabar');
+  if(qb)qb.style.display=p==='home'?'flex':'none';
   window.scrollTo({top:0,behavior:'instant'});
   if(p==='sections')renderSecMgr();
   if(p==='profile')renderHeader();
@@ -749,6 +847,7 @@ function openSheet(type,a,b){
   editItem=null;editSecKey=null;
   if(type==='profile')     {title.textContent='Edit Profile';  body.innerHTML=shProfile();}
   else if(type==='income') {title.textContent='Edit Income';   body.innerHTML=shIncome();}
+  else if(type==='add-income'){title.textContent='Add Income'; body.innerHTML=shAddIncome();}
   else if(type==='add-item'){title.textContent='Add Item';     body.innerHTML=shItem(a,null);editItem={sKey:a,id:null};}
   else if(type==='edit-item'){title.textContent='Edit Item';   body.innerHTML=shItem(a,b);editItem={sKey:a,id:b};}
   else if(type==='view-item'){title.textContent='View Item';   body.innerHTML=shViewItem(a,b);}
@@ -774,6 +873,66 @@ function shProfile(){
       <div style="display:flex;gap:10px;flex-wrap:wrap">${COLOR_OPTS.map(c=>`<div class="cdot${p.color===c.hex?' on':''}" style="background:${c.hex}" onclick="pickColor('${c.hex}')"></div>`).join('')}</div>
     </div>
     <div class="factions"><button class="btn btn-g" onclick="closeSheet()">Cancel</button><button class="btn btn-p" onclick="saveProfile()">Save</button></div>`;
+}
+
+// ── Income source picker ───────────────────────────────────────────────
+const INCOME_SOURCES=[
+  {id:'salary',    label:'Salary',    emoji:'💼', desc:'Monthly salary / CTC'},
+  {id:'bonus',     label:'Bonus',     emoji:'🎯', desc:'Performance or annual bonus'},
+  {id:'gifts',     label:'Gifts',     emoji:'🎁', desc:'Cash gifts received'},
+  {id:'freelance', label:'Freelance', emoji:'💻', desc:'Freelance or consulting income'},
+  {id:'rental',    label:'Rental',    emoji:'🏠', desc:'Rental or property income'},
+  {id:'interest',  label:'Interest',  emoji:'🏦', desc:'FD / savings interest'},
+  {id:'dividend',  label:'Dividend',  emoji:'📈', desc:'Stock / MF dividends'},
+  {id:'other',     label:'Other',     emoji:'✦',  desc:'Any other income source'},
+];
+let selIncSrc='salary';
+function shAddIncome(){
+  selIncSrc='salary';
+  const srcs=INCOME_SOURCES.map(s=>`
+    <div id="isrc-${s.id}" onclick="selIncSource('${s.id}')"
+      style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(--rl);border:1.5px solid ${s.id===selIncSrc?'var(--blue)':'var(--bd)'};background:${s.id===selIncSrc?'var(--blue-bg)':'var(--sf2)'};cursor:pointer;margin-bottom:7px;transition:all 120ms;">
+      <span style="font-size:1.3rem;line-height:1">${s.emoji}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:.88rem;font-weight:700;color:var(--t1)">${s.label}</div>
+        <div style="font-size:.7rem;color:var(--t3);margin-top:1px">${s.desc}</div>
+      </div>
+      <div id="isrc-chk-${s.id}" style="width:18px;height:18px;border-radius:50%;border:2px solid ${s.id===selIncSrc?'var(--blue)':'var(--bd)'};background:${s.id===selIncSrc?'var(--blue)':'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        ${s.id===selIncSrc?'<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>':''}
+      </div>
+    </div>`).join('');
+  return `<div style="margin-bottom:12px">${srcs}</div>
+    <div class="fg"><label class="fl">Amount (₹)</label><input class="fi" id="f-inc-amt" type="number" placeholder="0" style="font-size:1.3rem!important;font-weight:700;padding:13px 14px;"></div>
+    <div class="fg"><label class="fl">Note (optional)</label><input class="fi" id="f-inc-note" placeholder="e.g. May salary, Diwali bonus…"></div>
+    <div class="factions"><button class="btn btn-g" onclick="closeSheet()">Cancel</button><button class="btn btn-p" onclick="saveAddedIncome()">Add Income</button></div>`;
+}
+function selIncSource(id){
+  selIncSrc=id;
+  INCOME_SOURCES.forEach(s=>{
+    const row=document.getElementById('isrc-'+s.id);
+    const chk=document.getElementById('isrc-chk-'+s.id);
+    if(!row||!chk)return;
+    const on=s.id===id;
+    row.style.borderColor=on?'var(--blue)':'var(--bd)';
+    row.style.background=on?'var(--blue-bg)':'var(--sf2)';
+    chk.style.borderColor=on?'var(--blue)':'var(--bd)';
+    chk.style.background=on?'var(--blue)':'transparent';
+    chk.innerHTML=on?'<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>':'';
+  });
+}
+function saveAddedIncome(){
+  const amt=Number(document.getElementById('f-inc-amt').value)||0;
+  if(!amt){toast('Enter an amount');return;}
+  const note=document.getElementById('f-inc-note').value.trim();
+  const src=INCOME_SOURCES.find(s=>s.id===selIncSrc);
+  const md=getMonth(curKey);
+  // Add to income for this month (cumulative)
+  md.income=(Number(md.income)||0)+amt;
+  // Store income log
+  if(!md.incomeLog)md.incomeLog=[];
+  md.incomeLog.push({id:Date.now().toString(36),source:selIncSrc,label:src.label,amount:amt,note,date:new Date().toISOString()});
+  save();closeSheet();renderHome();
+  toast(`${src.emoji} ${src.label} ₹${amt.toLocaleString('en-IN')} added ✓`);
 }
 function pickColor(hex){D.profile.color=hex;document.querySelectorAll('.cdot').forEach(d=>d.classList.toggle('on',d.style.background===hex));}
 function saveProfile(){
