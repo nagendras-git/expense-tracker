@@ -690,7 +690,7 @@ function tots(md){
 }
 
 // ═══ FORMAT ═══════════════════════════════════════════════════════════
-function fmt(n){const v=Math.abs(Number(n)||0);return v>=100000?`₹${(v/100000).toFixed(2)}L`:`₹${Math.round(v).toLocaleString('en-IN')}`;}
+function fmt(n){const v=Math.abs(Number(n)||0);if(v>=10000000)return`₹${(v/100000).toFixed(0)}L`;if(v>=1000000)return`₹${(v/100000).toFixed(1)}L`;return`₹${Math.round(v).toLocaleString('en-IN')}`;}
 
 // ═══ RENDER: HEADER ═══════════════════════════════════════════════════
 function greeting(){const h=new Date().getHours();return h<12?'Good morning 👋':h<17?'Good afternoon 👋':'Good evening 👋';}
@@ -1192,7 +1192,14 @@ function renderAnalysis(){
 
   // Month label in header
   const ml=document.getElementById('an-month-label');
-  if(ml)ml.textContent=keyLabel(curKey);
+  if(ml){
+    const isCur=curKey===todayKey();
+    ml.textContent=keyLabel(curKey);
+    ml.style.background=isCur?'rgba(34,197,94,.12)':'var(--blue-bg)';
+    ml.style.borderColor=isCur?'rgba(34,197,94,.35)':'var(--blue-bd)';
+    ml.style.color=isCur?'var(--green)':'var(--blue)';
+    ml.innerHTML=isCur?`<span style="font-size:.65rem">●</span> ${keyLabel(curKey)}`:keyLabel(curKey);
+  }
 
   // ── This month breakdown (horizontal bars) ────────────────────────────
   const bdEl=document.getElementById('an-breakdown');
@@ -1205,18 +1212,18 @@ function renderAnalysis(){
       const invPct=Math.round(t.inv/income*100);
       const savPct=Math.max(0,Math.round(t.surplus/income*100));
       const rows=[
-        {label:'Spending',  val:t.disc,   pct:expPct, color:'var(--red)',   w:Math.min(expPct,100)},
-        {label:'Investing', val:t.inv,    pct:invPct, color:'var(--blue)',  w:Math.min(invPct,100)},
-        {label:'Saved',     val:Math.max(0,t.surplus), pct:savPct, color:'var(--green)', w:Math.min(savPct,100)},
+        {label:'Spending',  val:t.disc,   pct:expPct, color:'var(--blue)', w:Math.min(expPct,100)},
+        {label:'Investing', val:t.inv,    pct:invPct, color:'var(--blue)', w:Math.min(invPct,100)},
+        {label:'Saved',     val:Math.max(0,t.surplus), pct:savPct, color:'var(--blue)', w:Math.min(savPct,100)},
       ];
       bdEl.innerHTML=rows.map(r=>`
         <div style="margin-bottom:14px">
           <div style="display:flex;justify-content:space-between;margin-bottom:5px">
             <span style="font-size:.78rem;font-weight:600;color:var(--t2)">${r.label}</span>
-            <span style="font-size:.78rem;font-weight:700;color:${r.color}">${fmt(r.val)} <span style="color:var(--t3);font-weight:500">${r.pct}%</span></span>
+            <span style="display:flex;align-items:baseline;gap:6px"><span style="font-size:.78rem;font-weight:700;color:var(--t1)">${fmt(r.val)}</span><span style="font-size:.78rem;color:var(--blue);font-weight:700;min-width:36px;text-align:right">${r.pct}%</span></span>
           </div>
           <div style="height:8px;background:var(--sf3);border-radius:99px;overflow:hidden">
-            <div style="height:100%;width:${r.w}%;background:${r.color};border-radius:99px;transition:width .6s cubic-bezier(.16,1,.3,1)"></div>
+            <div style="height:100%;width:${r.w}%;background:var(--blue);border-radius:99px;transition:width .6s cubic-bezier(.16,1,.3,1)"></div>
           </div>
         </div>`).join('');
       if(tiEl)tiEl.textContent=`${keyLabel(curKey)} Breakdown`;
@@ -1234,17 +1241,16 @@ function renderAnalysis(){
       catEl.innerHTML=`<div style="text-align:center;padding:16px 0;color:var(--t3);font-size:.82rem">No spending data for this month.</div>`;
     } else {
       const maxVal=catRows[0].val;
-      const colors=['var(--blue)','var(--red)','var(--green)','var(--amber)','var(--purple)','var(--t2)'];
-      catEl.innerHTML=catRows.map((r,i)=>{
+      catEl.innerHTML=catRows.map((r)=>{
         const w=maxVal?Math.round(r.val/maxVal*100):0;
         const pct=income?Math.round(r.val/income*100):0;
         return `<div style="margin-bottom:13px">
           <div style="display:flex;justify-content:space-between;margin-bottom:5px">
             <span style="font-size:.78rem;font-weight:600;color:var(--t2)">${r.label}</span>
-            <span style="font-size:.78rem;font-weight:700;color:${colors[i%colors.length]}">${fmt(r.val)}${income?` <span style="color:var(--t3);font-weight:500">${pct}%</span>`:''}</span>
+            <span style="display:flex;align-items:baseline;gap:6px"><span style="font-size:.78rem;font-weight:700;color:var(--t1)">${fmt(r.val)}</span>${income?`<span style="font-size:.78rem;color:var(--blue);font-weight:700;min-width:36px;text-align:right">${pct}%</span>`:''}</span>
           </div>
           <div style="height:8px;background:var(--sf3);border-radius:99px;overflow:hidden">
-            <div style="height:100%;width:${w}%;background:${colors[i%colors.length]};border-radius:99px;opacity:.85;transition:width .6s cubic-bezier(.16,1,.3,1)"></div>
+            <div style="height:100%;width:${w}%;background:var(--blue);border-radius:99px;transition:width .6s cubic-bezier(.16,1,.3,1)"></div>
           </div>
         </div>`;
       }).join('');
@@ -1268,24 +1274,18 @@ function renderAnalysis(){
     const W=320,H=110,barW=14,gap=30;
     const totalW=mdata.length*(barW+gap)-gap;
     const startX=(W-totalW)/2;
-    // For past months: color by spend relative to median
-    const pastTotals=mdata.filter(m=>!m.isCur&&m.hasData).map(m=>m.total).sort((a,b)=>a-b);
-    const median=pastTotals.length?pastTotals[Math.floor(pastTotals.length/2)]:0;
+    // For past months: uniform blue with slight opacity variation
     function barColor(m){
       if(m.isCur)return'var(--blue)';
       if(!m.hasData)return'var(--sf3)';
-      if(!median)return'var(--bd)';
-      const ratio=m.total/median;
-      if(ratio>=1.12)return'var(--red)';
-      if(ratio>=0.95)return'var(--amber)';
-      return'var(--green)';
+      return'var(--blue)';
     }
     const bars=mdata.map((m,i)=>{
       const x=startX+i*(barW+gap);
       const barH=m.total?Math.max(4,Math.round(m.total/maxTotal*H*0.82)):2;
       const y=H-barH;
       const col=barColor(m);
-      const opacity=m.isCur?'1':'0.82';
+      const opacity='1';
       return `<g>
         <rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="3" fill="${col}" opacity="${opacity}" style="transition:height .5s cubic-bezier(.16,1,.3,1)"/>
         ${m.total?`<text x="${x+barW/2}" y="${y-5}" text-anchor="middle" font-size="8" font-family="Inter,sans-serif" fill="var(--t3)" font-weight="600">${m.total>=100000?(m.total/100000).toFixed(1)+'L':Math.round(m.total/1000)+'k'}</text>`:''}
@@ -1296,11 +1296,8 @@ function renderAnalysis(){
     trendEl.innerHTML=`<div style="overflow-x:auto">
       <svg viewBox="0 0 ${W} ${H+22}" width="100%" style="display:block;overflow:visible">${bars}</svg>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--bd2)">
-      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--blue)"></div><span style="font-size:.66rem;color:var(--t3)">This month</span></div>
-      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--green)"></div><span style="font-size:.66rem;color:var(--t3)">Low spend</span></div>
-      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--amber)"></div><span style="font-size:.66rem;color:var(--t3)">Average</span></div>
-      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--red)"></div><span style="font-size:.66rem;color:var(--t3)">High spend</span></div>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bd2)">
+      <span style="font-size:.66rem;color:var(--t3)">Total outflow per month (expenses + investments + EMIs)</span>
     </div>`;
   }
   // Re-expand any open collapsible panels after content re-render
