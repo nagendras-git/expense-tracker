@@ -486,10 +486,7 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
   </div></div>
   <div class="wrap" style="padding-top:20px;padding-bottom:24px;display:flex;flex-direction:column;gap:12px">
 
-    <!-- Insights card -->
-    <div id="an-insights"></div>
-
-    <!-- This month breakdown -->
+    <!-- This month breakdown (NOT collapsible) -->
     <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);overflow:hidden">
       <div style="padding:14px 16px 10px;border-bottom:1px solid var(--bd2)">
         <div class="lbl" style="margin-bottom:2px">This Month</div>
@@ -498,22 +495,36 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
       <div style="padding:14px 16px 16px" id="an-breakdown"></div>
     </div>
 
-    <!-- Category breakdown -->
+    <!-- Category breakdown (collapsible) -->
     <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);overflow:hidden">
-      <div style="padding:14px 16px 10px;border-bottom:1px solid var(--bd2)">
-        <div class="lbl" style="margin-bottom:2px">Spending by Category</div>
-        <div style="font-size:.86rem;font-weight:700;color:var(--t1)">Where your money goes</div>
+      <div onclick="toggleAnSection('categories')" style="padding:14px 16px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none">
+        <div>
+          <div class="lbl" style="margin-bottom:2px">Spending by Category</div>
+          <div style="font-size:.86rem;font-weight:700;color:var(--t1)">Where your money goes</div>
+        </div>
+        <div id="an-chev-categories" style="width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--sf2);flex-shrink:0;transition:transform .3s var(--ease)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
       </div>
-      <div style="padding:14px 16px 16px" id="an-categories"></div>
+      <div id="an-body-categories" style="border-top:1px solid var(--bd2);overflow:hidden;max-height:0;transition:max-height .35s var(--ease)">
+        <div style="padding:14px 16px 16px" id="an-categories"></div>
+      </div>
     </div>
 
-    <!-- 6-month trend -->
+    <!-- 6-month trend (collapsible) -->
     <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);overflow:hidden">
-      <div style="padding:14px 16px 10px;border-bottom:1px solid var(--bd2)">
-        <div class="lbl" style="margin-bottom:2px">6-Month Trend</div>
-        <div style="font-size:.86rem;font-weight:700;color:var(--t1)">Monthly outflow history</div>
+      <div onclick="toggleAnSection('trend')" style="padding:14px 16px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none">
+        <div>
+          <div class="lbl" style="margin-bottom:2px">6-Month Trend</div>
+          <div style="font-size:.86rem;font-weight:700;color:var(--t1)">Monthly outflow history</div>
+        </div>
+        <div id="an-chev-trend" style="width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--sf2);flex-shrink:0;transition:transform .3s var(--ease)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
       </div>
-      <div style="padding:14px 16px 16px" id="an-trend"></div>
+      <div id="an-body-trend" style="border-top:1px solid var(--bd2);overflow:hidden;max-height:0;transition:max-height .35s var(--ease)">
+        <div style="padding:14px 16px 16px" id="an-trend"></div>
+      </div>
     </div>
 
   </div>
@@ -1119,6 +1130,27 @@ function doReset(){
   boot();save();renderHeader();renderHome();switchPage('home');toast('All data cleared');
 }
 
+// ═══ ANALYSIS COLLAPSIBLE ════════════════════════════════════════════
+const anOpen={categories:false,trend:false};
+function toggleAnSection(id){
+  anOpen[id]=!anOpen[id];
+  const body=document.getElementById('an-body-'+id);
+  const chev=document.getElementById('an-chev-'+id);
+  if(!body)return;
+  if(anOpen[id]){
+    body.style.maxHeight=body.scrollHeight+400+'px';
+    if(chev)chev.style.transform='rotate(180deg)';
+  } else {
+    body.style.maxHeight='0';
+    if(chev)chev.style.transform='rotate(0deg)';
+  }
+}
+function refreshAnHeights(){
+  ['categories','trend'].forEach(id=>{
+    if(anOpen[id]){const body=document.getElementById('an-body-'+id);if(body)body.style.maxHeight=body.scrollHeight+400+'px';}
+  });
+}
+
 // ═══ RENDER: ANALYSIS ════════════════════════════════════════════════
 function renderAnalysis(){
   const md=getMonth(curKey);
@@ -1128,38 +1160,6 @@ function renderAnalysis(){
   // Month label in header
   const ml=document.getElementById('an-month-label');
   if(ml)ml.textContent=keyLabel(curKey);
-
-  // ── Insights ──────────────────────────────────────────────────────────
-  const insights=[];
-  if(income===0){
-    insights.push({icon:'💡',color:'var(--blue)',msg:'Add your income in Profile to unlock personalised insights.'});
-  } else {
-    const expPct=income?Math.round(t.disc/income*100):0;
-    const invPct=income?Math.round(t.inv/income*100):0;
-    const savPct=income?Math.round(t.surplus/income*100):0;
-    if(invPct>=30) insights.push({icon:'🚀',color:'var(--green)',msg:`Investments at <b>${invPct}%</b> of income — well above the 30% benchmark. Strong wealth-building pace.`});
-    else if(invPct>=20) insights.push({icon:'📈',color:'var(--blue)',msg:`Investing <b>${invPct}%</b> of income. Aim for 30%+ to accelerate your 2033 FI target.`});
-    else if(invPct>0) insights.push({icon:'⚠️',color:'var(--amber)',msg:`Only <b>${invPct}%</b> invested this month. Consider increasing SIPs to stay on FI track.`});
-
-    if(savPct>=15) insights.push({icon:'✅',color:'var(--green)',msg:`Saving <b>${savPct}%</b> of income — healthy surplus. Consider routing to Bucket 2 (BAF).`});
-    else if(savPct>=5) insights.push({icon:'🔵',color:'var(--blue)',msg:`Surplus at <b>${savPct}%</b>. A little tight — watch discretionary spend.`});
-    else if(savPct<0) insights.push({icon:'🔴',color:'var(--red)',msg:`Spending exceeds income by <b>${fmt(Math.abs(t.surplus))}</b> this month. Review categories.`});
-
-    if(expPct>50) insights.push({icon:'⚠️',color:'var(--amber)',msg:`Non-investment spending is <b>${expPct}%</b> of income — above the ideal 50% ceiling.`});
-    else if(expPct<=40) insights.push({icon:'✅',color:'var(--green)',msg:`Spending at <b>${expPct}%</b> — well controlled. Keep fixed costs lean.`});
-  }
-  const insEl=document.getElementById('an-insights');
-  if(insEl){
-    if(insights.length===0){insEl.innerHTML='';}
-    else{
-      insEl.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px">
-        ${insights.map(i=>`<div style="display:flex;align-items:flex-start;gap:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:12px 14px">
-          <span style="font-size:1.1rem;line-height:1.4;flex-shrink:0">${i.icon}</span>
-          <span style="font-size:.8rem;color:var(--t2);line-height:1.55;font-weight:500">${i.msg}</span>
-        </div>`).join('')}
-      </div>`;
-    }
-  }
 
   // ── This month breakdown (horizontal bars) ────────────────────────────
   const bdEl=document.getElementById('an-breakdown');
@@ -1256,6 +1256,8 @@ function renderAnalysis(){
       <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--bd)"></div><span style="font-size:.66rem;color:var(--t3)">Past months</span></div>
     </div>`;
   }
+  // Re-expand any open collapsible panels after content re-render
+  setTimeout(refreshAnHeights,30);
 }
 
 // ═══ TOAST ════════════════════════════════════════════════════════════
