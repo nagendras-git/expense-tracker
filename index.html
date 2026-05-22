@@ -554,7 +554,6 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 <div class="tbar"><div class="tbar-in">
   <button class="titem active" id="tb-home" onclick="switchPage('home')"><div class="tico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="tlabel">Home</span></button>
   <button class="titem" id="tb-sections" onclick="switchPage('sections')"><div class="tico"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div><span class="tlabel">Categories</span></button>
-  <button class="titem" id="tb-analysis" onclick="switchPage('analysis')"><div class="tico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><span class="tlabel">Analysis</span></button>
   <button class="titem" id="tb-profile" onclick="switchPage('profile')"><div class="tico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="tlabel">Profile</span></button>
 </div></div>
 <div class="toast" id="toast"></div>
@@ -782,7 +781,10 @@ function renderSections(){
             <div class="rico"><svg viewBox="0 0 24 24">${ico.svg}</svg></div>
             <div class="rbody"><div class="rtitle">${item.name}</div><div class="rsub">${item.sub||''}</div></div>
             <div class="rright">
-              <div style="text-align:right"><div class="rval">${fmt(amt)}</div></div>
+              <div style="text-align:right">
+                <div class="rval">${fmt(amt)}</div>
+                ${income?`<div style="font-size:.65rem;font-weight:700;color:var(--t3);margin-top:2px;text-align:right">${ipct}% of income</div>`:''}
+              </div>
               <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
             </div>
           </div>`;
@@ -798,6 +800,7 @@ function renderSections(){
         </div>
         <div class="shdr-r">
           <span class="sec-pct">${fmt(secTotal)}</span>
+          ${income?`<span class="sec-pct">${pct}%</span>`:''}
           <span class="scaret" id="caret-sec-${sec.key}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </div>
       </div>
@@ -869,7 +872,7 @@ function openQuickAdd(type){
   }
 }
 function switchPage(p){
-  ['home','sections','analysis','profile'].forEach(id=>{
+  ['home','sections','profile'].forEach(id=>{
     document.getElementById('pg-'+id)?.classList.toggle('active',id===p);
     document.getElementById('tb-'+id)?.classList.toggle('active',id===p);
   });
