@@ -890,8 +890,19 @@ function toggleSec(id){
   document.getElementById('caret-'+id)?.classList.toggle('open',!isOpen);
 }
 function copyToCurrent(){
-  const s=JSON.parse(JSON.stringify(getMonth(curKey)));const t=todayKey();
-  if(!D.months[t])D.months[t]=s;save();curKey=t;renderHome();toast('Copied to current month ✓');
+  const src=JSON.parse(JSON.stringify(getMonth(curKey)));
+  const t=todayKey();
+  // Always initialise the target month (creates it if missing)
+  const tgt=getMonth(t);
+  // Copy income total
+  tgt.income=src.income;
+  // Copy every section's items with fresh IDs so edits don't bleed back
+  D.sections.forEach(s=>{
+    tgt[s.key]=(src[s.key]||[]).map(x=>({...x,id:uid()}));
+  });
+  // Preserve the target month's own incomeLog (don't import the source month's log)
+  // tgt.incomeLog stays untouched
+  save();curKey=t;renderHome();toast('Copied to current month ✓');
 }
 
 // ═══ SHEET MANAGEMENT ═════════════════════════════════════════════════
