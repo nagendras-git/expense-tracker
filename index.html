@@ -155,6 +155,8 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 .addrow:active{opacity:.7}
 .addrow-icon{width:22px;height:22px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .addrow-icon svg{stroke:#fff;}
+.more-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1px dashed var(--bd);border-radius:var(--rl);cursor:pointer;color:var(--t3);font-size:.76rem;font-weight:700;transition:all 120ms;user-select:none;}
+.more-btn:active{opacity:.65;background:var(--sf)}
 
 /* ── Quick-add action bar (above tab bar, home only) ── */
 /* Tab-bar clearance is handled once on <body>; no extra padding here */
@@ -686,6 +688,7 @@ function tots(md){
 
 // ═══ FORMAT ═══════════════════════════════════════════════════════════
 function fmt(n){const v=Math.abs(Number(n)||0);if(v>=10000000)return`₹${(v/100000).toFixed(0)}L`;if(v>=1000000)return`₹${(v/100000).toFixed(1)}L`;return`₹${Math.round(v).toLocaleString('en-IN')}`;}
+function pctStr(part,whole){if(!whole)return'0%';const p=(Number(part)||0)/whole*100;if(p<=0)return'0%';return p<1?'<1%':Math.round(p)+'%';}
 
 // ═══ RENDER: HEADER ═══════════════════════════════════════════════════
 function greeting(){const h=new Date().getHours();return h<12?'Good morning 👋':h<17?'Good afternoon 👋':'Good evening 👋';}
@@ -759,10 +762,22 @@ function alertHtml(type,msg,pos=false){
 }
 
 // ═══ RENDER: SECTIONS (% of total inline, all collapsed) ══════════════
+let secsExpanded=false;
+const SECS_LIMIT=4;
+function moreBtnHtml(n){
+  const chev=secsExpanded?'<polyline points="18 15 12 9 6 15"/>':'<polyline points="6 9 12 15 18 9"/>';
+  return `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${chev}</svg><span>${secsExpanded?'Show less':`Show ${n} more categor${n===1?'y':'ies'}`}</span>`;
+}
+function toggleMoreSecs(){
+  secsExpanded=!secsExpanded;
+  const m=document.getElementById('secs-more'),b=document.getElementById('secs-more-btn');
+  if(m)m.style.display=secsExpanded?'block':'none';
+  if(b)b.innerHTML=moreBtnHtml(Number(b.dataset.n||0));
+}
 function renderSections(){
   const md=getMonth(curKey);const t=tots(md);const ro=monthMode(curKey)==='past';
   const addLabels={home:'Add Expense',insurance:'Add Policy',investments:'Add Investment',loans:'Add EMI / Loan'};
-  document.getElementById('sections-wrap').innerHTML=visSecs().map((sec,idx)=>{
+  const secsHtml=visSecs().map((sec,idx)=>{
     const items=md[sec.key]||[];
     const secTotal=sum(items);
     const ico=getIcon(sec.iconId);
@@ -779,7 +794,7 @@ function renderSections(){
             <div class="rright">
               <div style="text-align:right">
                 <div class="rval">${fmt(amt)}</div>
-                ${income?`<div style="font-size:.65rem;font-weight:700;color:var(--t3);margin-top:2px;text-align:right">${ipct}% of income</div>`:''}
+                ${income?`<div style="font-size:.65rem;font-weight:700;color:var(--t3);margin-top:2px;text-align:right">${pctStr(amt,income)} of income</div>`:''}
               </div>
               <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
             </div>
@@ -796,13 +811,25 @@ function renderSections(){
         </div>
         <div class="shdr-r">
           <span class="sec-pct">${fmt(secTotal)}</span>
-          ${income?`<span class="sec-pct">${pct}%</span>`:''}
+          ${income?`<span class="sec-pct">${pctStr(secTotal,income)}</span>`:''}
           <span class="scaret" id="caret-sec-${sec.key}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </div>
       </div>
       <div class="sbody" id="sec-${sec.key}"><div class="rlist">${rows}</div>${addRow}</div>
     </div>`;
-  }).join('');
+  });
+  // Show first SECS_LIMIT categories; tuck the rest behind a "Show more" row
+  // (only when there are at least 2 extra, so we never hide a single lonely one)
+  let html;
+  const extra=secsHtml.length-SECS_LIMIT;
+  if(extra>=2){
+    html=secsHtml.slice(0,SECS_LIMIT).join('')
+      +`<div id="secs-more" style="display:${secsExpanded?'block':'none'}">${secsHtml.slice(SECS_LIMIT).join('')}</div>`
+      +`<div class="wrap" style="padding-top:8px;padding-bottom:0"><div class="more-btn" id="secs-more-btn" data-n="${extra}" onclick="toggleMoreSecs()">${moreBtnHtml(extra)}</div></div>`;
+  }else{
+    html=secsHtml.join('');
+  }
+  document.getElementById('sections-wrap').innerHTML=html;
 }
 
 function renderHome(){renderMonthNav();renderHero();renderSections();}
@@ -823,7 +850,7 @@ function renderSecMgr(){
       </div>
       <div style="flex:1;min-width:0">
         <div style="font-size:.9rem;font-weight:700;color:var(--t1)">${sec.label}</div>
-        <div style="font-size:.68rem;color:var(--t3);margin-top:1px">${sec.builtin?'🔒 Built-in':''} ${secTotal?fmt(secTotal)+' · '+pct+'% of income':''}</div>
+        <div style="font-size:.68rem;color:var(--t3);margin-top:1px">${sec.builtin?'🔒 Built-in':''} ${secTotal?fmt(secTotal)+' · '+pctStr(secTotal,income)+' of income':''}</div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
         <div class="tog ${sec.visible!==false?'on':''}" onclick="toggleSecVisible('${sec.key}')"><div class="togth"></div></div>
