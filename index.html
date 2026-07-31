@@ -128,6 +128,18 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 .scaret.open{transform:rotate(180deg)}
 .sbody{overflow:hidden;max-height:0;opacity:0;pointer-events:none;transition:max-height .38s var(--ease),opacity .22s ease;}
 .sbody.open{max-height:5000px;opacity:1;pointer-events:auto;}
+/* ── Grouped category card (rows + nested item lists) ── */
+.seclist{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);overflow:hidden;}
+.srow{display:flex;align-items:center;gap:11px;padding:13px 14px;cursor:pointer;user-select:none;border-top:1px solid var(--bd2);transition:background 120ms;}
+.srow:first-child{border-top:none}
+.srow:active{background:var(--sf2)}
+.srow .stitle{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srow-r{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.srow-amt{font-size:.9rem;font-weight:700;color:var(--t1);text-align:right;letter-spacing:-.2px}
+.srow-pct{font-size:.62rem;font-weight:600;color:var(--t3);text-align:right;margin-top:2px}
+.nest{background:var(--bg);border-top:1px solid var(--bd2);padding:10px 12px 4px;}
+.nest .rlist{border-radius:var(--rl);}
+.nest .addrow{margin-top:8px}
 
 /* ── Profile collapsibles (same pattern) ── */
 .pshdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;user-select:none;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rl);margin-bottom:6px;transition:background 120ms;}
@@ -138,14 +150,14 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 
 /* ── Row list ── */
 .rlist{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);overflow:hidden;}
-.ritem{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--bd2);cursor:pointer;transition:background 120ms;}
+.ritem{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--bd2);cursor:pointer;transition:background 120ms;}
 .ritem:last-child{border-bottom:none}
 .ritem:active{background:var(--sf2)}
-.rico{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--blue-bg);border:1px solid var(--blue-bd);}
+.rico{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--blue-bg);border:1px solid var(--blue-bd);}
 .rico svg{width:16px;height:16px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 .rbody{flex:1;min-width:0}
 .rtitle{font-size:.88rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rsub{font-size:.72rem;color:var(--t3);margin-top:2px}
+.rsub{font-size:.76rem;color:var(--t3);margin-top:3px}
 .rright{text-align:right;flex-shrink:0;display:flex;align-items:center;gap:8px;}
 .rval{font-size:.92rem;font-weight:700;color:var(--t1)}
 .rpct{font-size:.68rem;color:var(--t3);margin-top:2px}
@@ -155,8 +167,6 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 .addrow:active{opacity:.7}
 .addrow-icon{width:22px;height:22px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .addrow-icon svg{stroke:#fff;}
-.more-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1px dashed var(--bd);border-radius:var(--rl);cursor:pointer;color:var(--t3);font-size:.76rem;font-weight:700;transition:all 120ms;user-select:none;}
-.more-btn:active{opacity:.65;background:var(--sf)}
 
 /* ── Quick-add action bar (above tab bar, home only) ── */
 /* Tab-bar clearance is handled once on <body>; no extra padding here */
@@ -761,73 +771,88 @@ function alertHtml(type,msg,pos=false){
   return `<div style="background:${B[type]};border:1px solid ${R[type]};border-radius:var(--rl);padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:2px">${icon}<span style="font-size:.78rem;font-weight:600;color:${C[type]}">${msg}</span></div>`;
 }
 
-// ═══ RENDER: SECTIONS (% of total inline, all collapsed) ══════════════
-let secsExpanded=false;
-const SECS_LIMIT=4;
-function moreBtnHtml(n){
-  const chev=secsExpanded?'<polyline points="18 15 12 9 6 15"/>':'<polyline points="6 9 12 15 18 9"/>';
-  return `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${chev}</svg><span>${secsExpanded?'Show less':`Show ${n} more categor${n===1?'y':'ies'}`}</span>`;
+// ═══ RENDER: SECTIONS (root collapsible → categories → items) ═════════
+let rootOpen=localStorage.getItem('wp_rootSecsOpen')==='1'; // collapsed by default; remembered across sessions
+let invOpen=localStorage.getItem('wp_rootInvOpen')==='1';
+function toggleRootSecs(){
+  rootOpen=!rootOpen;
+  localStorage.setItem('wp_rootSecsOpen',rootOpen?'1':'0');
+  document.getElementById('root-secs-body')?.style.setProperty('display',rootOpen?'block':'none');
+  document.getElementById('caret-root-secs')?.classList.toggle('open',rootOpen);
 }
-function toggleMoreSecs(){
-  secsExpanded=!secsExpanded;
-  const m=document.getElementById('secs-more'),b=document.getElementById('secs-more-btn');
-  if(m)m.style.display=secsExpanded?'block':'none';
-  if(b)b.innerHTML=moreBtnHtml(Number(b.dataset.n||0));
+function toggleRootInv(){
+  invOpen=!invOpen;
+  localStorage.setItem('wp_rootInvOpen',invOpen?'1':'0');
+  document.getElementById('root-inv-body')?.style.setProperty('display',invOpen?'block':'none');
+  document.getElementById('caret-root-inv')?.classList.toggle('open',invOpen);
 }
 function renderSections(){
   const md=getMonth(curKey);const t=tots(md);const ro=monthMode(curKey)==='past';
+  const income=Number(md.income)||0;
   const addLabels={home:'Add Expense',insurance:'Add Policy',investments:'Add Investment',loans:'Add EMI / Loan'};
-  const secsHtml=visSecs().map((sec,idx)=>{
+  // Build the item list (+ add row) for one section
+  const buildItems=(sec)=>{
     const items=md[sec.key]||[];
-    const secTotal=sum(items);
     const ico=getIcon(sec.iconId);
-    // % of monthly income for this section
-    const income=Number(md.income)||0;const pct=income?Math.round(secTotal/income*100):0;
     const rows=items.length===0
       ?`<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">${ro?'Nothing recorded this month.':'No items yet — tap + to add.'}</div></div>`
       :items.map(item=>{
-          const amt=Number(item.amount||0),ipct=income?Math.round(amt/income*100):0;
+          const amt=Number(item.amount||0);
+          const meta=item.sub?item.sub:(income?pctStr(amt,income)+' of income':'');
           const act=ro?`openSheet('view-item','${sec.key}','${item.id}')`:`openSheet('edit-item','${sec.key}','${item.id}')`;
           return `<div class="ritem" onclick="${act}">
             <div class="rico"><svg viewBox="0 0 24 24">${ico.svg}</svg></div>
-            <div class="rbody"><div class="rtitle">${item.name}</div><div class="rsub">${item.sub||''}</div></div>
-            <div class="rright">
-              <div style="text-align:right">
-                <div class="rval">${fmt(amt)}</div>
-                ${income?`<div style="font-size:.65rem;font-weight:700;color:var(--t3);margin-top:2px;text-align:right">${pctStr(amt,income)} of income</div>`:''}
-              </div>
-              <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-            </div>
+            <div class="rbody"><div class="rtitle">${item.name}</div><div class="rsub">${fmt(amt)}${meta?' · '+meta:''}</div></div>
+            <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
           </div>`;
         }).join('');
     const addRow=ro?'':`<div class="addrow" onclick="openSheet('add-item','${sec.key}')" style="margin-bottom:8px">
       + ${addLabels[sec.key]||'Add Item'}
     </div>`;
-    return `<div class="wrap" style="padding-top:${idx===0?8:0}px;padding-bottom:0">
-      <div class="shdr" onclick="toggleSec('sec-${sec.key}')">
-        <div class="shdr-l">
-          <div class="sec-ico"><svg viewBox="0 0 24 24">${ico.svg}</svg></div>
-          <span class="stitle">${sec.label}</span>
-        </div>
-        <div class="shdr-r">
-          <span class="sec-pct">${fmt(secTotal)}</span>
-          ${income?`<span class="sec-pct">${pctStr(secTotal,income)}</span>`:''}
+    return {rows,addRow};
+  };
+  // A root-level collapsible header (Monthly Expenses / Investments)
+  const rootHdr=(onclick,iconSvg,title,pill,caretId,open)=>`<div class="wrap" style="padding-top:8px;padding-bottom:0">
+    <div class="shdr" onclick="${onclick}" style="background:var(--sf)">
+      <div class="shdr-l">
+        <div class="sec-ico"><svg viewBox="0 0 24 24">${iconSvg}</svg></div>
+        <span class="stitle">${title}</span>
+      </div>
+      <div class="shdr-r">
+        <span class="sec-pct">${pill}</span>
+        <span class="scaret ${open?'open':''}" id="${caretId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+    </div>
+  </div>`;
+  const allSecs=visSecs();
+  const expSecs=allSecs.filter(s=>s.key!=='investments');
+  const invSec=allSecs.find(s=>s.key==='investments');
+  // ── Monthly Expenses: root → grouped category card → nested items ──
+  const expRows=expSecs.map(sec=>{
+    const secTotal=sum(md[sec.key]||[]);
+    const ico=getIcon(sec.iconId);
+    const {rows,addRow}=buildItems(sec);
+    return `<div class="srow" onclick="toggleSec('sec-${sec.key}')">
+        <div class="sec-ico"><svg viewBox="0 0 24 24">${ico.svg}</svg></div>
+        <span class="stitle">${sec.label}</span>
+        <div class="srow-r">
+          <div>
+            <div class="srow-amt">${fmt(secTotal)}</div>
+            ${income?`<div class="srow-pct">${pctStr(secTotal,income)} of income</div>`:''}
+          </div>
           <span class="scaret" id="caret-sec-${sec.key}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </div>
       </div>
-      <div class="sbody" id="sec-${sec.key}"><div class="rlist">${rows}</div>${addRow}</div>
-    </div>`;
-  });
-  // Show first SECS_LIMIT categories; tuck the rest behind a "Show more" row
-  // (only when there are at least 2 extra, so we never hide a single lonely one)
-  let html;
-  const extra=secsHtml.length-SECS_LIMIT;
-  if(extra>=2){
-    html=secsHtml.slice(0,SECS_LIMIT).join('')
-      +`<div id="secs-more" style="display:${secsExpanded?'block':'none'}">${secsHtml.slice(SECS_LIMIT).join('')}</div>`
-      +`<div class="wrap" style="padding-top:8px;padding-bottom:0"><div class="more-btn" id="secs-more-btn" data-n="${extra}" onclick="toggleMoreSecs()">${moreBtnHtml(extra)}</div></div>`;
-  }else{
-    html=secsHtml.join('');
+      <div class="sbody" id="sec-${sec.key}"><div class="nest"><div class="rlist">${rows}</div>${addRow}</div></div>`;
+  }).join('');
+  const listIcon='<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>';
+  let html=rootHdr('toggleRootSecs()',listIcon,'Monthly Expenses',fmt(t.disc)+' spent','caret-root-secs',rootOpen)
+    +`<div id="root-secs-body" style="display:${rootOpen?'block':'none'}"><div class="wrap" style="padding-top:0;padding-bottom:0"><div class="seclist">${expRows}</div></div></div>`;
+  // ── Investments: root → items directly (single category, no extra layer) ──
+  if(invSec){
+    const {rows,addRow}=buildItems(invSec);
+    html+=rootHdr('toggleRootInv()',getIcon(invSec.iconId).svg,invSec.label,fmt(t.inv)+' invested','caret-root-inv',invOpen)
+      +`<div id="root-inv-body" style="display:${invOpen?'block':'none'}"><div class="wrap" style="padding-top:0;padding-bottom:0"><div class="rlist">${rows}</div>${addRow}</div></div>`;
   }
   document.getElementById('sections-wrap').innerHTML=html;
 }
