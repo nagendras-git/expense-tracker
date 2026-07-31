@@ -42,9 +42,6 @@
 [data-theme="light"]{--bg:#f2f2f7;--sf:#fff;--sf2:#fff;--sf3:#f0f0f5;--bd:#c8c8d8;--bd2:#d8d8e4;--t1:#1a1a25;--t2:#606078;--t3:#9898b0;--scrim:rgba(0,0,0,.45);--blue-bg:rgba(59,130,246,.08);--blue-bd:rgba(59,130,246,.2);}
 [data-theme="light"] .hdr{background:var(--bg)!important;border-bottom:1px solid var(--bd)!important}
 [data-theme="light"] .tbar{background:var(--bg)!important;border-top:1px solid var(--bd)!important}
-[data-theme="light"] .qabar{background:rgba(242,242,247,.97)!important;border-top:1px solid var(--bd)!important}
-[data-theme="light"] .qabar-exp{color:#fff!important;border-color:#dc2626!important;background:#dc2626!important;}
-[data-theme="light"] .qabar-inc{color:#fff!important;border-color:#16a34a!important;background:#16a34a!important;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{height:100%;font-size:16px;background:var(--bg)}
 body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;padding-bottom:calc(var(--nav-h) + var(--sb) + 4px);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
@@ -75,6 +72,12 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 .avi:active{transform:scale(.9)}
 .hdr-gr{font-size:.72rem;color:var(--t3);font-weight:400;line-height:1}
 .hdr-nm{font-size:1.18rem;font-weight:800;color:var(--t1);letter-spacing:-.4px;line-height:1.2}
+.hdr-r{display:flex;align-items:center;gap:8px}
+.hdr-act{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;border:1.5px solid;transition:transform 150ms var(--spring);}
+.hdr-act:active{transform:scale(.9)}
+.hdr-act svg{width:16px;height:16px;fill:none;stroke-width:2.8;stroke-linecap:round}
+.hdr-inc{color:var(--green);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.10);}
+.hdr-exp{color:var(--red);border-color:rgba(248,113,113,.35);background:rgba(248,113,113,.10);}
 
 
 /* ── Month navigator ── */
@@ -154,13 +157,8 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 .addrow-icon svg{stroke:#fff;}
 
 /* ── Quick-add action bar (above tab bar, home only) ── */
-.qabar{position:fixed;bottom:calc(var(--nav-h) + var(--sb));left:0;right:0;z-index:199;display:flex;gap:0;max-width:480px;margin:0 auto;padding:8px 14px;background:rgba(13,13,16,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--bd2);}
-.qabar-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 0;border-radius:var(--rl);font-size:.88rem;font-weight:700;cursor:pointer;transition:all 120ms;border:1.5px solid;}
-.qabar-btn:active{transform:scale(.96);opacity:.8}
-.qabar-exp{color:var(--red);border-color:rgba(248,113,113,.35);background:rgba(248,113,113,.08);margin-right:6px;}
-.qabar-inc{color:var(--green);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.08);}
-/* Pad home page above the qabar */
-#pg-home{padding-bottom:calc(var(--nav-h) + var(--sb) + 58px);}
+/* Home clears the tab bar (quick-add moved into the header) */
+#pg-home{padding-bottom:calc(var(--nav-h) + var(--sb) + 8px);}
 
 /* ── Tab bar ── */
 .tbar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(13,13,16,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--bd);height:calc(var(--nav-h) + var(--sb));padding-bottom:var(--sb);display:flex;align-items:flex-start;justify-content:center;padding-top:7px;}
@@ -289,7 +287,14 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
         <div class="hdr-nm" id="hdr-nm">Expense Tracker</div>
       </div>
     </div>
-
+    <div class="hdr-r">
+      <button class="hdr-act hdr-inc" onclick="openQuickAdd('income')" aria-label="Add income" title="Add income">
+        <svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <button class="hdr-act hdr-exp" onclick="openQuickAdd('expense')" aria-label="Add expense" title="Add expense">
+        <svg viewBox="0 0 24 24" stroke="currentColor"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
   </div></div>
 
   <!-- Month Navigator -->
@@ -541,15 +546,6 @@ body.locked{overflow:hidden;position:fixed;width:100%;touch-action:none;}
 </div>
 
 <!-- Quick-add bar (home only) -->
-<div class="qabar" id="qabar">
-  <div class="qabar-btn qabar-exp" onclick="openQuickAdd('expense')">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Expense
-  </div>
-  <div class="qabar-btn qabar-inc" onclick="openQuickAdd('income')">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Income
-  </div>
-</div>
-
 <!-- Tab Bar -->
 <div class="tbar"><div class="tbar-in">
   <button class="titem active" id="tb-home" onclick="switchPage('home')"><div class="tico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="tlabel">Home</span></button>
@@ -876,8 +872,6 @@ function switchPage(p){
     document.getElementById('pg-'+id)?.classList.toggle('active',id===p);
     document.getElementById('tb-'+id)?.classList.toggle('active',id===p);
   });
-  const qb=document.getElementById('qabar');
-  if(qb)qb.style.display=p==='home'?'flex':'none';
   window.scrollTo({top:0,behavior:'instant'});
   if(p==='sections')renderSecMgr();
   if(p==='profile')renderHeader();
